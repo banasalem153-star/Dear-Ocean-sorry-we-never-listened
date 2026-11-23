@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Realm — Meet the Ocean Animals</title>
+<style>
+:root{--bg:#e9f7fb;--tx:#12384f;--card:#fff;--ac:#19a7c9;--mu:#4d7388;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d2a3b;--tx:#e8f6fb;--card:#14394f;--mu:#a5c6d6}}
+:root[data-theme="dark"]{--bg:#0d2a3b;--tx:#e8f6fb;--card:#14394f;--mu:#a5c6d6}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:17px/1.7 Georgia,serif}
+h1,h2,h3,nav,button,.b,label{font-family:'Trebuchet MS',Arial,sans-serif}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;display:flex;gap:.3rem;overflow-x:auto;padding:.6rem .8rem;background:var(--card);box-shadow:0 2px 8px #0002}
+nav a{white-space:nowrap;text-decoration:none;color:var(--tx);padding:.4rem .8rem;border-radius:99px;font-weight:700;font-size:.9rem}
+nav a:hover,nav a.on{background:var(--ac);color:#fff}
+.pg{max-width:62rem;margin:0 auto;padding:1.5rem 1.1rem 3rem}
+.hero{text-align:center;padding:3rem 1rem;border-radius:24px;background:linear-gradient(180deg,#8fdcf0,#d4f3fa)}
+.hero h1{font-size:clamp(2.2rem,8vw,4.5rem);line-height:1.05;margin:0 0 .6rem;color:#0c3a52}
+.hero p{color:#25586f;font-size:1.25rem;margin:0}
+.b{display:inline-block;background:var(--ac);color:#fff;border:0;padding:.8rem 1.6rem;border-radius:99px;font-weight:700;font-size:1rem;cursor:pointer;text-decoration:none;margin:.4rem .2rem}
+.card{background:var(--card);border-radius:20px;padding:1.4rem;margin:1.4rem 0;box-shadow:0 4px 14px #0001}
+.srow{display:grid;grid-template-columns:9rem 1fr;gap:.6rem;align-items:center;padding:.3rem 0}
+.srow input{width:100%;accent-color:var(--ac)}
+.lab{display:flex;justify-content:space-between;color:var(--mu);font-size:.8rem}
+.slot{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:4/3;background:linear-gradient(135deg,var(--a),#fff8);display:flex;align-items:center;justify-content:center;text-align:center;color:#12384f;font:.85rem Arial;padding:1rem;border:2px dashed #12384f55}
+.slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(10.5rem,1fr));gap:1rem}
+.grid a{text-decoration:none;color:var(--tx);background:var(--card);border-radius:18px;padding:.6rem;box-shadow:0 3px 10px #0001;text-align:center;font:700 .95rem Arial}
+.grid .slot{aspect-ratio:1;margin-bottom:.4rem}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}
+.tag{display:inline-block;background:var(--a);color:#12384f;font:700 .85rem Arial;padding:.3rem .8rem;border-radius:99px}
+.q{border-left:6px solid var(--a,var(--ac));background:var(--card);padding:.8rem 1rem;border-radius:10px;font-style:italic}
+.opts{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;margin:1rem 0}
+.t{background:#3fb97f}.f{background:#ee6a7c}.o{background:#5b8def}
+.gm{text-align:center}.big{font-size:3.5rem}
+canvas{width:100%;max-width:640px;border-radius:18px;touch-action:none;background:#7fd6ee}
+.diff{display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid #8883}
+@media(max-width:700px){.two{grid-template-columns:1fr}.srow{grid-template-columns:1fr}}
+
+.hero{position:relative;overflow:hidden;min-height:26rem;display:flex;align-items:center;justify-content:center;padding:1.5rem}
+.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero .ht{position:relative;max-width:40rem;padding:1.6rem;border-radius:20px;background:color-mix(in srgb,var(--card) 82%,transparent)}
+.hero .ht h1{color:var(--tx)}.hero .ht p{color:var(--tx);font-size:1.1rem;margin:.4rem 0 1rem}
+.hl{position:absolute;top:.8rem;left:1rem;font:.8rem Arial;color:#12384f}
+.pills{display:flex;gap:.4rem;flex-wrap:wrap}
+.pl{background:var(--card);border:2px solid #8886;border-radius:99px;padding:.5rem 1rem;font:700 .85rem Arial;color:var(--tx);cursor:pointer}
+.pl.on{background:var(--ac);color:#fff;border-color:var(--ac)}.pl:nth-child(1).on{background:#3fb97f;border-color:#3fb97f}.pl:nth-child(4).on{background:#f2994a;border-color:#f2994a}.pl:nth-child(5).on{background:#ee6a7c;border-color:#ee6a7c}
+.srow{grid-template-columns:8rem 1fr}
+
+body{font-family:'Segoe UI',system-ui,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,var(--bg),color-mix(in srgb,var(--bg) 65%,#7ccbe0)) fixed;overflow-x:hidden}
+h1,h2,h3{font-family:'Segoe UI',system-ui,Arial,sans-serif;font-weight:800;letter-spacing:-.01em}
+nav{background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(10px);box-shadow:none;border-bottom:1px solid #8883}
+.card,.grid a,.q{background:none;box-shadow:none}.card{padding:.5rem 0}.grid a{padding:.3rem}
+.hero .ht{background:#06304acc}.hero .ht h1,.hero .ht p{color:#fff}
+.gal{grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))}
+#stage{width:100vw;margin-left:calc(50% - 50vw);margin-top:-1.5rem}
+#hm{position:fixed;top:calc(env(safe-area-inset-top,0px) + 3.7rem);left:50%;transform:translateX(-50%);z-index:8;background:#0c2c40cc;color:#fff;padding:.4rem 1.1rem;border-radius:99px;font:700 .95rem Arial;white-space:nowrap}
+#gmsg{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#000b;z-index:20;padding:1rem}#gmsg:empty{display:none}
+.dead{max-width:24rem;width:100%;text-align:center;background:#0c2c40;color:#fff;border-radius:20px;padding:1.4rem}.dead .slot{aspect-ratio:1;filter:grayscale(1);margin-bottom:.8rem}
+
+:root,:root:not([data-theme="light"]),:root[data-theme="dark"],:root[data-theme="light"]{--bg:#0b1f3a;--tx:#f2f7ff;--card:#12305a;--mu:#a9bfd9;--ac:#2b8de0}
+body{background:linear-gradient(180deg,#081a33,#0f2f5c) fixed}
+.hero{background:linear-gradient(180deg,#123a6b,#0b1f3a)}.hl{color:#fff}
+.slot{color:#fff;background:linear-gradient(135deg,color-mix(in srgb,var(--a) 40%,#0b1f3a),#0b1f3a);border-color:#ffffff55}
+#stage{position:fixed;left:0;right:0;bottom:0;top:calc(env(safe-area-inset-top,0px) + 3.4rem);width:auto;margin:0;z-index:5}
+#hm{top:calc(env(safe-area-inset-top,0px) + 4.2rem)}
+#sb{position:fixed;top:calc(env(safe-area-inset-top,0px) + 4rem);right:.8rem;z-index:8;padding:.4rem 1rem;margin:0}
+.shopov{position:fixed;inset:0;z-index:19;background:#000d;overflow:auto;padding:4.5rem 1rem 2rem}
+#stage{top:0;z-index:15}
+#hm{top:calc(env(safe-area-inset-top,0px) + 3.4rem);z-index:16}
+#sb,#ex,#fs{top:calc(env(safe-area-inset-top,0px) + .6rem);z-index:16}
+#ex{position:fixed;left:.6rem;padding:.4rem 1rem;margin:0}#fs{position:fixed;left:5.2rem;padding:.4rem 1rem;margin:0}
+#sb{right:.6rem}
+.hero{width:100vw;margin-left:calc(50% - 50vw);margin-top:-1.5rem;border-radius:0;min-height:calc(100vh - 3.4rem);padding:2rem 1.2rem}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#0b1f3a40,#0b1f3a8c)}
+.hero .ht{background:none;z-index:2;text-shadow:0 2px 12px #000c,0 0 4px #000a}
+.hero .ht h1{font-size:clamp(2.6rem,9vw,6rem)}
+.hero .ht h1{font-family:'Berkshire Swash',Georgia,'Times New Roman',serif;font-weight:400;letter-spacing:.01em;line-height:1.1}
+body{background:#0b1f3a linear-gradient(180deg,#081a33,#0f2f5c);background-attachment:scroll;min-height:100vh}
+
+.lg{padding:0!important;display:flex;align-items:center;background:none!important}.lg img{height:2.4rem;width:auto;display:block}
+#bg{margin-inline-start:auto;position:sticky;inset-inline-end:0;background:color-mix(in srgb,var(--bg) 92%,transparent);border:0;color:var(--tx);cursor:pointer;padding:.2rem .6rem;display:flex;align-items:center}
+.menu{position:fixed;top:calc(env(safe-area-inset-top,0px) + 3.4rem);inset-inline-end:.6rem;z-index:50;background:#0c2c40;color:#fff;border-radius:16px;padding:1rem;min-width:13rem;max-height:80vh;overflow:auto;box-shadow:0 8px 30px #0008;font-family:Arial,Tahoma,sans-serif}
+.menu h4{margin:.2rem 0 .5rem;font-size:.85rem;color:#a9bfd9}
+.menu button{display:block;width:100%;margin:.25rem 0;padding:.6rem;border-radius:10px;border:0;background:#17406a;color:#fff;font:700 1rem Arial,Tahoma,sans-serif;cursor:pointer}.menu button.on{background:var(--ac)}
+.menu a{display:block;padding:.45rem .3rem;color:#fff;text-decoration:none;font-size:.95rem}
+#ft{border-top:1px solid #8883;padding:2rem 1rem 2.4rem;text-align:center;font:.92rem Arial,Tahoma,sans-serif;color:var(--mu);margin-top:3rem}
+#ft .row{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;margin:.7rem 0}
+#ft a,#ft button.lk{color:var(--tx);text-decoration:none;background:none;border:0;font:inherit;cursor:pointer}
+#ft svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle;margin-inline-end:.35rem}
+#ft .soc{display:inline-flex;width:2.7rem;height:2.7rem;border-radius:50%;border:1px solid #fff4;align-items:center;justify-content:center;cursor:pointer}#ft .soc svg{margin:0}
+#ft .soc:hover{background:var(--ac)}#ft .lgf{height:3.2rem;opacity:.9}
+.ck{position:fixed;left:.6rem;right:.6rem;bottom:.6rem;z-index:30;background:#0c2c40;color:#fff;border-radius:14px;padding:.8rem 1rem;display:flex;gap:.8rem;align-items:center;justify-content:space-between;flex-wrap:wrap;font:.9rem Arial,Tahoma,sans-serif;box-shadow:0 6px 24px #0009}
+.ck .b{margin:0;padding:.5rem 1.1rem}
+.doc{position:fixed;inset:0;z-index:60;background:#000c;display:flex;align-items:center;justify-content:center;padding:1rem}
+.doc>div{max-width:34rem;max-height:85vh;overflow:auto;background:#0c2c40;color:#fff;border-radius:18px;padding:1.4rem}
+html[dir=rtl] .q{border-left:0;border-right:6px solid var(--a,var(--ac))}
+html[lang=ar] body,html[lang=ar] h1,html[lang=ar] h2,html[lang=ar] h3,html[lang=ar] nav,html[lang=ar] button,html[lang=ar] .b,html[lang=ar] label{font-family:Tahoma,'Segoe UI',Arial,sans-serif}
+html[lang=ar] .hero .ht h1{font-family:Tahoma,'Segoe UI',Arial,sans-serif;font-weight:800}
+img{max-width:100%}
+@media(max-width:700px){.pg{padding:1rem .8rem 2rem}.hero{min-height:70vh}.grid{grid-template-columns:repeat(auto-fill,minmax(8.5rem,1fr))}nav a{padding:.4rem .6rem;font-size:.82rem}.lg img{height:2.1rem}#hm{font-size:.78rem;max-width:94vw;overflow:hidden;text-overflow:ellipsis}.hero .ht{padding:1rem}}
+@media(min-width:701px) and (max-width:1100px){.grid{grid-template-columns:repeat(auto-fill,minmax(9.5rem,1fr))}.pg{padding-inline:1.4rem}}
+.lg{flex:0 0 auto}.lg img{max-width:none;flex:none}nav a,#bg{flex:0 0 auto}
+html[dir=rtl] .hero{margin-left:0;margin-right:calc(50% - 50vw)}
+#ld{position:fixed;top:0;left:0;right:0;z-index:99;background:#2b8de0;color:#fff;text-align:center;padding:.5rem;font:700 .9rem Arial}
+.th{display:grid;grid-template-columns:repeat(auto-fill,minmax(16rem,1fr));gap:1.2rem;margin:1.2rem 0}.th figure{margin:0;background:var(--card);border-radius:18px;overflow:hidden;box-shadow:0 4px 14px #0004}.th img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}.th figcaption{padding:.8rem 1rem 1rem;font-size:.92rem;line-height:1.5}.th figcaption b{font-size:1.05rem}.th figcaption p{margin:.3rem 0 0}.th small{opacity:.65}
+.fz .slot{aspect-ratio:auto;border:0;background:none;padding:0;display:block}.fz .slot img{position:static;width:100%;height:auto;max-height:34rem;object-fit:contain;border-radius:14px}
+.gal2{columns:13rem;column-gap:1rem;margin:1rem 0}.gal2 img{width:100%;display:block;margin:0 0 1rem;border-radius:14px;cursor:zoom-in;break-inside:avoid}.zm{position:fixed;inset:0;z-index:70;background:#000d;display:flex;align-items:center;justify-content:center;padding:1rem;cursor:zoom-out}.zm img{max-width:100%;max-height:100%;border-radius:12px}
+#gb .slot{aspect-ratio:auto;border:0;background:none;padding:0;display:block;text-align:center;margin:.6rem 0}#gb .slot img{position:static;width:min(100%,24rem);height:auto;max-height:24rem;object-fit:contain;border-radius:14px}
+.ap{max-width:34rem;margin:1rem auto}.paper{background:#fff8e6;color:#3b2f1e;border-radius:8px;padding:1.2rem 1.4rem;box-shadow:0 8px 24px #0005;background-image:repeating-linear-gradient(transparent 0 1.85rem,#c9b98e66 1.85rem 2rem);line-height:2rem;font-family:"Segoe Script","Bradley Hand","Comic Sans MS",cursive}.paper b{font-size:1.2rem}.paper .hint{margin:0;font-size:.85rem;opacity:.7}.paper{position:relative;z-index:3}.paper textarea,.paper input{-webkit-appearance:none;appearance:none;-webkit-user-select:text;user-select:text;pointer-events:auto;touch-action:manipulation;position:relative;z-index:3;border-radius:0}.paper textarea{display:block;width:100%;min-height:14rem;background:transparent;border:0;outline:0;resize:vertical;font:inherit;font-size:16px;color:#3b2f1e;caret-color:#3b2f1e;line-height:2rem;padding:0;margin:0}.apl{display:flex;gap:.6rem;align-items:center;font-size:.9rem}.apl input{flex:1;min-width:0;width:auto;background:transparent;border:0;border-bottom:1px solid #8a7a52;outline:0;font:inherit;font-size:16px;color:#3b2f1e;caret-color:#3b2f1e}.aperr{color:#b3261e;margin:.3rem 0 0;font-size:.85rem}
+.scene{position:relative;height:27rem;overflow:hidden;border-radius:18px;background:linear-gradient(#a9dcf3,#eaf8fd 60%)}.am{position:absolute;top:.8rem;left:0;right:0;text-align:center;font-weight:700;color:#0b3a66;transition:opacity 1s;z-index:9}.envw{position:absolute;left:50%;top:4.5rem;width:14rem;height:9rem;margin-left:-7rem;z-index:5}.envw.float{animation:bob 1.4s ease-in-out infinite alternate}@keyframes bob{from{translate:0 -4px;rotate:-3deg}to{translate:0 6px;rotate:3deg}}
+.env{position:absolute;inset:0;transition:transform 3.2s ease-in,opacity 3s}.env.toss{transform:translateY(11.5rem) rotate(-6deg) scale(.92);transition-duration:1.6s;transition-timing-function:ease-in}.env.drift{transform:translate(15rem,12.5rem) rotate(14deg) scale(.7);opacity:0}.eb{position:absolute;inset:0;background:#d9c48f;border-radius:4px}.lt{position:absolute;left:.9rem;right:.9rem;top:-5.5rem;height:8rem;background:#fff8e6;color:#3b2f1e;border-radius:4px;padding:.4rem .6rem;font:.7rem/1.3 "Segoe Script","Comic Sans MS",cursive;overflow:hidden;transition:top 1.3s ease-in-out;z-index:1;box-shadow:0 2px 6px #0003}.lt #ltx{white-space:pre-wrap;word-break:break-word}.env.in .lt{top:.7rem}.ef{position:absolute;inset:0;background:#f1e2b8;clip-path:polygon(0 0,50% 55%,100% 0,100% 100%,0 100%);border-radius:4px;z-index:3}.fl{position:absolute;left:0;right:0;top:0;height:5rem;background:#e6d29f;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transform:rotateX(180deg);transition:transform .9s;z-index:0}.env.closed .fl{transform:rotateX(0);z-index:4}.sl{position:absolute;left:50%;top:3.1rem;width:2.2rem;height:2.2rem;margin-left:-1.1rem;border-radius:50%;background:#c0392b;display:grid;place-items:center;font-size:1.1rem;transform:scale(0);transition:transform .45s cubic-bezier(.3,1.8,.5,1);z-index:6}.env.sealed .sl{transform:scale(1)}.to{position:absolute;left:0;right:0;bottom:.5rem;text-align:center;font:italic .95rem "Segoe Script","Comic Sans MS",cursive;color:#5a4a2a;opacity:0;transition:opacity .6s;z-index:5}.env.sealed .to{opacity:1}
+.sea{position:absolute;left:0;right:0;bottom:0;height:10rem;background:linear-gradient(#2f9bd0,#0b3a66);z-index:2}.sea::before,.sea2::before{content:"";position:absolute;top:-14px;left:0;right:0;height:28px;background:radial-gradient(circle at 14px 14px,#2f9bd0 14px,transparent 15px) repeat-x;background-size:28px 28px;animation:wv 3s linear infinite}.sea2{position:absolute;left:0;right:0;bottom:0;height:7.5rem;background:#1a6fa466;z-index:8}.sea2::before{background:radial-gradient(circle at 14px 14px,#1a6fa466 14px,transparent 15px) repeat-x;background-size:28px 28px;animation-duration:2s;animation-direction:reverse}@keyframes wv{to{background-position:28px 0}}.done{text-align:center;margin-top:1rem}
+</style><link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet"></head><body>
+<div id="ld">Loading the ocean... photos are on their way</div><nav id="nav"></nav><div class="pg" id="app"></div><footer id="ft"></footer>
+<script>
+// ===== PUT YOUR PHOTOS HERE: "shark-main","shark-extra","octopus-part"... and VIDEO url =====
+const IMG={"anglerfish-main": "assets/img_2e303231b3.webp", "flyingfish-main": "assets/img_99a8d29621.webp", "parrotfish-main": "assets/img_e569470988.webp", "swordfish-main": "assets/img_134091d7c2.webp", "barnacle-main": "assets/img_72b2e45c08.webp", "dugong-main": "assets/img_ff8dea0748.webp", "horseshoecrab-main": "assets/img_9d7d0fcb26.webp", "krill-main": "assets/img_c58185e857.webp", "mantisshrimp-main": "assets/img_4cf63d6939.webp", "portuguesemanowar-main": "assets/img_3370c47b02.webp", "nudibranch-main": "assets/img_1dbb09f7a7.webp", "remora-main": "assets/img_7a8d92c4b9.webp", "cleanerwrasse-main": "assets/img_2581e2fe0d.webp", "elephantseal-main": "assets/img_b3a0a12d75.webp", "marineiguana-main": "assets/img_d9a97217fa.webp", "oceansunfish-main": "assets/img_f7ef4d84e3.webp", "penguin-main": "assets/img_f80f29b664.webp", "porpoise-main": "assets/img_6eae57b4b4.webp", "seasnake-main": "assets/img_eabec70b8c.webp", "tuna-main": "assets/img_0389c358bf.webp", "spermwhale-main": "assets/img_dd31dc990f.webp", "beluga-main": "assets/img_24c628da49.webp", "humpbackwhale-main": "assets/img_967f056a6a.webp", "manatee-main": "assets/img_4b66ce4cfb.webp", "narwhal-main": "assets/img_08585b6adf.webp", "hermitcrab-main": "assets/img_33d336e4a5.webp", "lobster-main": "assets/img_e6f060d648.webp", "seaotter-main": "assets/img_9ac60ab70b.webp", "walrus-main": "assets/img_919b0b96b6.webp", "coral-main": "assets/img_1efe5c1347.webp", "cuttlefish-main": "assets/img_ee92d5fb78.webp", "giantsquid-main": "assets/img_be2f8fe33a.webp", "nautilus-main": "assets/img_b3929f2294.webp", "sponge-main": "assets/img_1dcdc4523d.webp", "hammerheadshark-main": "assets/img_a229e9864a.webp", "nurseshark-main": "assets/img_82588d43e1.webp", "seaanemone-main": "assets/img_617475062b.webp", "seacucumber-main": "assets/img_a3bde4e498.webp", "seaurchin-main": "assets/img_3c97aeb495.webp", "whale-main": "assets/img_50d58a0607.webp", "turtle-main": "assets/img_17b58b9716.webp", "whaleshark-main": "assets/img_a85edbc27b.webp", "blueringedoctopus-main": "assets/img_fd0a70fd7f.webp", "dolphin-main": "assets/img_6f0b613488.webp", "hero": "assets/img_a0e29609a5.webp", "jellyfish-main": "assets/img_90b979b267.webp", "lionfish-main": "assets/img_4dc135ee00.webp", "octopus-main": "assets/img_817eb2cb5d.webp", "shark-main": "assets/img_4fa63f965a.webp", "barracuda-main": "assets/img_4321f26b06.webp", "clownfish-main": "assets/img_19e5412a08.webp", "mantaray-main": "assets/img_56f865acd9.webp", "morayeel-main": "assets/img_16c9029edc.webp", "orca-main": "assets/img_fa8ff739fc.webp", "pufferfish-main": "assets/img_0aad742424.webp", "seahorse-main": "assets/img_2e2b97377f.webp", "stingray-main": "assets/img_c3903df2a3.webp", "crab-main": "assets/img_ce0a3ed3e4.webp", "seal-main": "assets/img_e605cb9030.webp", "starfish-main": "assets/img_d32bc48edc.webp", "sealion-main": "assets/img_d22d0cfa8a.webp", "oceansunfish-extra": "assets/img_21f0284b34.webp", "tuna-extra": "assets/img_f0d2383d74.webp", "anglerfish-extra": "assets/img_fb3578ef0f.webp", "barnacle-extra": "assets/img_32dce62374.webp", "flyingfish-extra": "assets/img_4d08210258.webp", "horseshoecrab-extra": "assets/img_1c835901dc.webp", "krill-extra": "assets/img_57584e5449.webp", "parrotfish-extra": "assets/img_f735554bda.webp", "swordfish-extra": "assets/img_cba2c70f5f.webp", "cleanerwrasse-extra": "assets/img_28f2c4ab11.webp", "dugong-extra": "assets/img_2c04dc96b2.webp", "portuguesemanowar-extra": "assets/img_bddd759906.webp", "nudibranch-extra": "assets/img_63b11ed21b.webp", "porpoise-extra": "assets/img_fb963b08b4.webp", "remora-extra": "assets/img_af480d23e6.webp", "elephantseal-extra": "assets/img_22c47ba131.webp", "marineiguana-extra": "assets/img_d03eaa85df.webp", "penguin-extra": "assets/img_83ad4023f7.webp", "sealion-extra": "assets/img_49f5f192ee.webp", "seasnake-extra": "assets/img_cf93185af3.webp", "humpbackwhale-extra": "assets/img_770ddf8dac.webp", "spermwhale-extra": "assets/img_4fa2afd9d1.webp", "beluga-extra": "assets/img_76ffc523b5.webp", "manatee-extra": "assets/img_704c1718d5.webp", "mantisshrimp-extra": "assets/img_0cbbf30e45.webp", "narwhal-extra": "assets/img_ec7108a0d8.webp", "seaotter-extra": "assets/img_312b2c6fa8.webp", "walrus-extra": "assets/img_4e3f31449e.webp", "cuttlefish-extra": "assets/img_8810d54b88.webp", "giantsquid-extra": "assets/img_f18e4b7b23.webp", "hermitcrab-extra": "assets/img_b91ccd9711.webp", "lobster-extra": "assets/img_aad05bf824.webp", "nautilus-extra": "assets/img_0eac4fe4ec.webp", "sponge-extra": "assets/img_5eb379f92e.webp", "coral-extra": "assets/img_8df379c3c6.webp", "seacucumber-extra": "assets/img_29eec7f5c2.webp", "hammerheadshark-extra": "assets/img_dbff044a96.webp", "seaanemone-extra": "assets/img_d30526374f.webp", "seaurchin-extra": "assets/img_fa3767ddee.webp", "whaleshark-extra": "assets/img_9d6ac9f7d8.webp", "crab-extra": "assets/img_f84a20e312.webp", "jellyfish-extra": "assets/img_fe2f31ec5e.webp", "octopus-extra": "assets/img_574a499dc3.webp", "turtle-extra": "assets/img_5aacb46cfe.webp", "seal-extra": "assets/img_2c23e1a309.webp", "whale-extra": "assets/img_5d60ede95b.webp", "barracuda-extra": "assets/img_755ec1f803.webp", "blueringedoctopus-extra": "assets/img_8fa29ece7e.webp", "clownfish-extra": "assets/img_cafb5d07b0.webp", "dolphin-extra": "assets/img_5f3839a9dc.webp", "lionfish-extra": "assets/img_458a8a40cf.webp", "morayeel-extra": "assets/img_fec76d3fc3.webp", "pufferfish-extra": "assets/img_751585cbb2.webp", "seahorse-extra": "assets/img_eccf96452c.webp", "shark-extra": "assets/img_8afdd0e0b6.webp", "mantaray-extra": "assets/img_f98cb48874.webp", "orca-extra": "assets/img_54da8ed744.webp", "starfish-extra": "assets/img_991295d4f4.webp", "stingray-extra": "assets/img_39b01de523.webp", "shark-fear": "assets/img_5aca7e53c9.webp", "dolphin-fear": "assets/img_3cb517f5de.webp", "octopus-fear": "assets/img_f6aa476008.webp", "jellyfish-fear": "assets/img_ba98f6522d.webp", "turtle-fear": "assets/img_c339fc4589.webp", "whale-fear": "assets/img_3aee3bd8c5.webp", "seal-fear": "assets/img_d916eb4cbd.webp", "crab-fear": "assets/img_0d8d2255d3.webp", "starfish-fear": "assets/img_4f03941ff3.webp", "orca-fear": "assets/img_90508591df.webp", "mantaray-fear": "assets/img_aefadb053a.webp", "stingray-fear": "assets/img_a3fbd7f871.webp", "clownfish-fear": "assets/img_c805c2ddc6.webp", "seahorse-fear": "assets/img_96d3977577.webp", "morayeel-fear": "assets/img_f3ad5d55a3.webp", "barracuda-fear": "assets/img_8ab10154c3.webp", "pufferfish-fear": "assets/img_a45631636f.webp", "lionfish-fear": "assets/img_1a3a2f2c6f.webp", "blueringedoctopus-fear": "assets/img_f540d6c4bf.webp", "seaotter-fear": "assets/img_68996de731.webp", "walrus-fear": "assets/img_8201e09696.webp", "manatee-fear": "assets/img_c92bf63dd3.webp", "narwhal-fear": "assets/img_a66face6ee.webp", "beluga-fear": "assets/img_05c3ba3a6e.webp", "humpbackwhale-fear": "assets/img_3aee3bd8c5.webp", "spermwhale-fear": "assets/img_5e07a84b2c.webp", "whaleshark-fear": "assets/img_db95cc2ef8.webp", "hammerheadshark-fear": "assets/img_a7bfdd2a08.webp", "nurseshark-fear": "assets/img_87be570b85.webp", "seaurchin-fear": "assets/img_052584b796.webp", "seacucumber-fear": "assets/img_c3aa06cfd9.webp", "seaanemone-fear": "assets/img_63dec8f961.webp", "coral-fear": "assets/img_e2b97370fb.webp", "sponge-fear": "assets/img_19f23032b8.webp", "nautilus-fear": "assets/img_89066b9912.webp", "giantsquid-fear": "assets/img_291d2a1fe8.webp", "cuttlefish-fear": "assets/img_2e617d5c3e.webp", "hermitcrab-fear": "assets/img_33e7d0d320.webp", "lobster-fear": "assets/img_64eade0bce.webp", "nurseshark-extra": "assets/img_767336a0c2.webp", "mantisshrimp-fear": "assets/img_6432a7c9d1.webp", "krill-fear": "assets/img_0e7823dc13.webp", "barnacle-fear": "assets/img_60703768f6.webp", "horseshoecrab-fear": "assets/img_ec0d6ea6a9.webp", "parrotfish-fear": "assets/img_a823ef421e.webp", "anglerfish-fear": "assets/img_a6d6c1b7d4.webp", "flyingfish-fear": "assets/img_45aeb49250.webp", "swordfish-fear": "assets/img_f3989c6fa5.webp", "tuna-fear": "assets/img_802a96b04d.webp", "oceansunfish-fear": "assets/img_57698492df.webp", "penguin-fear": "assets/img_40d9be2289.webp"},VPOSTERS=["assets/img_c7dc681910.jpg","assets/img_d8c8a20f75.jpg"],VIDEOS=["assets/video1.mp4","assets/video2.mp4"]
+const A=[
+["shark","","Shark","#7cc1ea","I'm not the monster you think I am.","Sharks are dangerous animals that hunt humans.","Misleading",
+["Hi, I'm a shark. Yes, the movies gave me a scary soundtrack, but humans aren't on my menu. NOAA notes that people aren't part of a shark's natural diet, and unprovoked encounters are extremely rare.","Most shark species are no threat to you at all. I keep the ocean balanced by eating sick and weak animals, which keeps reefs healthy. So next time the dramatic music plays, remember: I'm just looking for a fish lunch."]],
+["dolphin","","Dolphin","#8fe0ee","I'm not always the perfect friend.","Dolphins are always friendly, harmless and playful.","Incomplete",
+["Hello! I'm a dolphin, and yes, I love to leap, whistle and play. But the postcards leave out the messy part: I'm a wild animal with a complicated social life.","Scientists have documented aggressive behavior in dolphins in some situations, and National Geographic points out that our friendly image is only half the story. I'm smart, curious and playful, but not a cartoon. Respect my space, and I'll happily respect yours."]],
+["octopus","","Octopus","#f6a0b4","I'm not just a weird sea creature.","Octopuses are strange, simple sea creatures.","Underestimated",
+["Greetings from eight arms! People call me weird. I call myself clever. Educational sources like the RSPCA note that I can recognize different humans and behave differently around them.","My cousin the mimic octopus can imitate other animals to fool predators, and I can change my color and skin texture to vanish into the reef. I even have three hearts and blue blood. Weird? I prefer brilliantly unusual."]],
+["jellyfish","","Jellyfish","#c6b0f0","I'm more than a sting.","All jellyfish are dangerous.","Misleading",
+["Hi, I drift. No brain, no bones, no problem. Everyone hears jellyfish and thinks ouch, but there are many different species and we are very different from each other.","Some of us sting hard, many barely bother people at all, and some glow in the dark water like tiny lanterns. My family has been floating around for hundreds of millions of years. Please don't judge all of us by one bad beach day."]],
+["turtle","","Sea Turtle","#8ee0b4","I'm not just the cute one.","Sea turtles are cute, harmless movie characters.","Oversimplified",
+["Hello, slow and steady here. I'm a sea turtle, and I'm much more than the cute sidekick from the movies. I can swim thousands of kilometres across oceans, and many of us return to the beach where we were born to nest.","I have a job too: green turtles graze seagrass so meadows stay healthy, and leatherbacks eat jellyfish. My biggest troubles are plastic and fishing gear. Please help me out!"]],
+["whale","","Whale","#8db6f2","Yes, I'm huge. That doesn't make me a monster.","Whales shoot water out of their lungs.","Myth",
+["I'm a whale. Yes, I'm enormous, but big doesn't mean scary. Many of my relatives are gentle filter-feeders, and my blue whale cousin is the largest animal known to science.","About my spout: NOAA explains it isn't water coming from my lungs. My blowhole works like your nose, and the spray comes from my warm breath and the water around the blowhole. I'm a mammal, so I breathe air, just like you."]],
+["seal","","Seal","#b4cfdf","Cute doesn't mean I have no wild side.","Seals are cuddly, human-like pets of the sea.","Oversimplified",
+["Hi! I'm a seal. I know, big eyes, whiskers, the whole cute package. But cute is a face, not a personality. People often turn animals into human-like characters, and I am not a plush toy.","I'm a wild predator who dives deep after fish and squid. I'm happiest resting on rocks between hunts. Please admire me from a distance and let me nap in peace."]],
+["crab","","Crab","#ffae88","I walk sideways. So what?","All crabs walk sideways and are grumpy.","Partly true",
+["Yes, I walk sideways. So what? My leg joints bend sideways, so scuttling is simply efficient. It isn't a funny dance, it's engineering.","The truth is I'm more varied than the stereotype, because some crab species move forward or in other directions. I also grow by shedding my hard shell, and I tidy the seafloor by eating leftovers. Grumpy? No, just busy."]],
+["starfish","","Starfish","#ffc974","I'm not even a fish.","A starfish is a type of fish.","Myth",
+["Surprise: I'm not a fish. I have no gills, no fins and no backbone. Scientists prefer the name sea star, and honestly, so do I.","I'm an echinoderm, a cousin of sea urchins and sand dollars. I move on hundreds of tiny tube feet, and if I lose an arm I can often grow a new one. Fish can't do that."]],
+["orca","","Orca","#9fb9d6","Am I the ocean's villain?","Orcas are killer whales: ruthless ocean villains.","Misleading",
+["Am I the ocean's villain? Humans named me killer whale, which sounds very dramatic. In truth, I'm the largest member of the dolphin family.","I live with my family in tight pods, we talk with our own calls, and we hunt as a team. Films turned me into a movie monster, but real orcas are family animals with a bad nickname."]]];
+const $=s=>document.querySelector(s);
+const slot=(k,l,a)=>`<div class="slot" style="--a:${a||"#8fdcf0"}">${IMG[k]?`<img src="${IMG[k]}" alt="${l}">`:` ${l}<br>(${k})`}</div>`;
+let pre=null;try{pre=JSON.parse(localStorage.getItem("pre")||"null")}catch(e){}
+const S={},LB=["Not scared","A little","Unsure","Scared","Very scared"],val=k=>S[k]||3;
+const scale=p=>A.slice(0,10).map(a=>`<div class="srow"><b>${a[2]}</b><div class="pills">${LB.map((l,i)=>`<button class="pl${val(p+a[0])==i+1?" on":""}" onclick="pick('${p+a[0]}',${i+1},this)">${l}</button>`).join("")}</div></div>`).join("");
+function pick(k,n,el){S[k]=n;[...el.parentNode.children].forEach(b=>b.classList.remove("on"));el.classList.add("on")}
+const read=p=>Object.fromEntries(A.slice(0,10).map(a=>[a[0],val(p+a[0])]));
+function savePre(){pre=read("a_");try{localStorage.setItem("pre",JSON.stringify(pre))}catch(e){}location.hash="animals"}
+function ac(){return window._ac=window._ac||new(window.AudioContext||window.webkitAudioContext)()}
+function snd(ok){try{const c=ac(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=ok?"sine":"sawtooth";o.frequency.setValueAtTime(ok?660:150,c.currentTime);if(ok)o.frequency.setValueAtTime(880,c.currentTime+.12);g.gain.setValueAtTime(.15,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.4);o.start();o.stop(c.currentTime+.4)}catch(e){}}
+const sh=a=>[...a].sort(()=>Math.random()-.5);
+const TF=[["Sharks hunt humans on purpose.",0,"Humans aren't part of a shark's natural diet."],["Most shark species pose no threat to people.",1,"NOAA notes most species aren't a threat."],["Sharks have bony skeletons.",0,"Sharks have flexible cartilage, not bone."],["Dolphins are always gentle.",0,"Aggressive behavior has been documented too."],["Dolphins breathe through gills.",0,"Dolphins are mammals and breathe air with lungs."],["Octopuses have three hearts.",1,"Two serve the gills and one serves the body."],["Octopuses have blue blood.",1,"Their copper-based blood looks blue."],["Octopuses can recognize individual humans.",1,"Educational sources like the RSPCA note this."],["A jellyfish has a brain.",0,"Jellyfish have no brain."],["All jellyfish are dangerous to humans.",0,"Species vary hugely in danger."],["Sea turtles often return to their birth beaches to nest.",1,"Many do, after traveling huge distances."],["Leatherback turtles eat jellyfish.",1,"Jellyfish are their main food."],["Plastic is a threat to sea turtles.",1,"They can eat it or get tangled in it."],["Whales spray water out of their lungs.",0,"The spout is exhaled breath plus water near the blowhole."],["Whales are mammals.",1,"They breathe air and nurse their young."],["The blue whale is the largest animal known.",1,"Bigger than any dinosaur we know of."],["Seals are wild predators.",1,"They hunt fish and squid."],["All crabs only walk sideways.",0,"Some species can walk forward."],["Crabs shed their shell to grow.",1,"This is called molting."],["A starfish is a fish.",0,"It's an echinoderm; sea star is a better name."],["Starfish can regrow lost arms.",1,"Many species can."],["Orcas are a type of dolphin.",1,"They're the largest dolphins."]];
+const B=`Manta Ray|Manta rays are dangerous stingers.|I have no stinger at all. I glide through the water filtering plankton, and I have one of the biggest brains among fish.
+Stingray|Stingrays attack people.|I only use my tail spine to defend myself when I'm stepped on. Shuffle your feet in shallow water and we'll never have a problem.
+Clownfish|Clownfish are just cartoon stars.|A coating of mucus protects me from my anemone's stings. I live safely in its tentacles and help keep my home clean.
+Seahorse|Seahorses are delicate and boring.|I'm a fish, and it's the dad who carries the babies in a pouch until they're born. My curled tail grips seagrass like a hand.
+Moray Eel|Moray eels are aggressive monsters.|I'm actually shy. I spend most of my day tucked into a crevice, and I bite mainly when I feel threatened.
+Barracuda|Barracudas attack swimmers.|I'm fast and curious, so I sometimes follow divers. Attacks on people are very rare.
+Pufferfish|Pufferfish are funny balloons.|I gulp water to puff up and scare predators. Many of us also carry a powerful toxin, so I'm no toy.
+Lionfish|Lionfish are harmless and pretty.|My spines are venomous. Where I've been introduced, like the Atlantic, I'm an invader that harms reef fish.
+Blue-Ringed Octopus|Small animals can't be dangerous.|I fit in your palm, but I'm venomous. My bright blue rings are a warning, so please admire me from far away.
+Sea Otter|Sea otters are just cute.|I use rocks as tools to crack open shellfish, and my thick fur, not blubber, keeps me warm.
+Walrus|Walruses are clumsy lumps.|My tusks help me haul out onto ice, and my whiskers find clams on the dark seafloor.
+Manatee|Manatees are the mermaids of legend.|Sailors once mistook me for a mermaid! I'm a gentle plant-eater, and my closest relatives include elephants.
+Narwhal|A narwhal's tusk is a unicorn horn.|My tusk is a long spiral tooth packed with nerve endings, and it helps me sense my icy Arctic home.
+Beluga|Belugas are just white dolphins.|I'm a whale, and I'm so chatty that people call me the canary of the sea.
+Humpback Whale|Whale songs are random noise.|Male humpbacks sing long, complex songs that change over time, and other whales learn the new tunes.
+Sperm Whale|Sperm whales are mindless giants.|I dive deep to hunt squid, and I have the biggest brain of any animal on Earth.
+Whale Shark|Whale sharks are whales.|I'm a fish, the biggest in the sea, and I'm a gentle filter-feeder that eats tiny plankton.
+Hammerhead Shark|Hammerheads are weird mutants.|My wide head spreads my senses apart, which helps me detect prey and gives me a broad view.
+Nurse Shark|All sharks must keep swimming to live.|I rest calmly on the seafloor and pump water over my gills. Sleepy, not scary.
+Sea Urchin|Sea urchins are just spiky balls.|I graze on algae, and my spines protect me. I also have tiny tube feet hiding between them.
+Sea Cucumber|Sea cucumbers are vegetables.|I'm an animal! I clean the seafloor by eating tiny scraps and recycling them back into the sand.
+Sea Anemone|Anemones are plants.|I'm an animal related to jellyfish and coral, and my tentacles carry tiny stinging cells.
+Coral|Corals are just colorful rocks.|I'm made of thousands of tiny animals called polyps, and together we build whole reefs.
+Sponge|Sponges are plants.|I'm one of the simplest animals. I have no brain, and I filter water to catch food.
+Nautilus|Nautiluses are only fossils.|I'm very much alive! I'm a relative of octopuses, and my shell's chambers help me float.
+Giant Squid|Giant squids are sea monsters.|I'm real, but I'm rarely seen. My eyes are huge for seeing in the dark deep, and the kraken legend is just that.
+Cuttlefish|Cuttlefish are just squid.|I'm my own kind of animal with an inner cuttlebone, and I can ripple my skin through many colors.
+Hermit Crab|Hermit crabs grow their own shells.|I borrow empty shells and move into a bigger one when I grow.
+Lobster|Lobsters are naturally bright red.|I'm usually a dark color. I turn red only when I'm cooked.
+Mantis Shrimp|Mantis shrimp are ordinary shrimp.|I punch so fast that I can crack shells, and my eyes are among the most complex in the ocean.
+Krill|Krill are tiny and unimportant.|I'm a small crustacean, but huge swarms of us feed whales, penguins and fish. The ocean runs on us.
+Barnacle|Barnacles are shellfish like clams.|I'm actually a crustacean, a relative of crabs, glued headfirst to rocks and boats.
+Horseshoe Crab|Horseshoe crabs are crabs.|I'm closer to spiders than crabs, and my family is older than the dinosaurs.
+Parrotfish|Parrotfish are just colorful.|I munch algae off coral with my beak-like teeth, and much of the sand on tropical beaches comes from my leftovers.
+Anglerfish|Anglerfish are evil deep-sea monsters.|My glowing lure helps me attract food in total darkness. I'm just a hungry fish in a dark world.
+Flying Fish|Flying fish really fly.|I leap and glide on my wing-like fins to escape predators, but I don't flap like a bird.
+Swordfish|Swordfish stab their prey.|My bill is used to slash at fish and stun them, not to spear them.
+Tuna|Tuna are just canned food.|I'm a fast, powerful swimmer that crosses entire oceans.
+Ocean Sunfish|The ocean sunfish is a lazy blob.|I'm the heaviest bony fish. I look odd, but I'm a fine swimmer that loves jellyfish.
+Penguin|Penguins are failed birds.|My wings are flippers! I can't fly, but I'm a fast swimmer.
+Sea Snake|All sea snakes are deadly attackers.|I'm venomous, yet I'm usually calm and rarely bite people.
+Marine Iguana|Iguanas don't swim.|I'm the only lizard that feeds in the sea. I dive to graze on algae.
+Elephant Seal|Seals are all small and cuddly.|I'm a heavyweight who dives deep for long stretches. Males like me can weigh over a tonne.
+Sea Lion|Sea lions are seals.|I'm a cousin of seals. I have visible ear flaps, and I can walk on my big front flippers.
+Porpoise|Porpoises are dolphins.|I'm in a different family, with a blunt snout and a smaller body.
+Cleaner Wrasse|Small fish are only prey.|I run a cleaning station on the reef, and big fish line up to have their parasites removed by me.
+Remora|Remoras are parasites.|I hitch rides on sharks with my suction disc, and I eat the scraps and parasites. Everyone gets a meal.
+Portuguese Man o' War|A man o' war is a jellyfish.|I'm actually a colony of tiny animals working together as one, and my tentacles can sting painfully.
+Nudibranch|Sea slugs are boring and slimy.|I'm a colorful sea slug, and some of us even recycle stinging cells from the animals we eat.
+Dugong|Dugongs are manatees.|I'm a cousin of manatees, but my tail has two lobes like a whale's, and I graze on seagrass.`.split("\n").filter(Boolean);
+const PAL=A.slice(0,10).map(a=>a[3]);
+A.push(...B.map((l,i)=>{const[n,m,t]=l.split("|");return[n.toLowerCase().replace(/[^a-z]/g,""),"",n,PAL[i%10],"Let me tell you my side.",m,"Let's bust it",[t]]}));
+const BP=[["shark","Rows of sharp teeth that are replaced all life long"],["whale","Long grooves under the throat that stretch wide when feeding"],["octopus","Eight arms lined with suckers"],["jellyfish","Long, frilly tentacles trailing in the water"],["turtle","Paddle-shaped flippers and a domed shell"],["dolphin","A curved fin on its back"],["crab","Two big pincers"],["starfish","Five arms covered in tiny tube feet"],["seal","Whiskers and short flippers"],["orca","A tall fin and black-and-white patches"],["narwhal","A long spiral tusk"],["mantaray","A huge open mouth with two curled fins beside it"],["seahorse","A curled tail for gripping"],["pufferfish","A round body with spines"],["lobster","Long antennae and big claws"],["walrus","Long ivory tusks and bristly whiskers"],["penguin","Flipper-like wings"],["swordfish","A long, flat bill"],["hammerheadshark","A wide, flat head"],["nautilus","Dozens of thin tentacles reaching out"]];
+const MORE=Object.fromEntries(`shark|I've been around for over 400 million years, older than trees. My skeleton is cartilage, my skin is covered in tiny tooth-like scales, and I can sense the faint electric field of a hidden fish. I lose and replace thousands of teeth in my life. I'm not a mindless hunter, I'm a precise one, and the ocean needs me.|fishing gear and finning
+dolphin|I talk with clicks and whistles, and each of us has a signature whistle that works like a name. I live in a pod, hunt as a team, and help sick friends reach the surface to breathe. I sleep with half my brain at a time so I never forget to breathe. Smart doesn't mean simple, and it doesn't mean saintly either.|getting tangled in fishing nets
+octopus|I have a small brain in each arm as well as the big one in my head, and my arms can taste what they touch. I squeeze through any gap bigger than my beak, and I escape tanks better than any fish. I only live a few years, so I spend them curious, solving puzzles and learning.|plastic trash and drifting nets in my den
+jellyfish|I'm about ninety-five percent water, yet my family has survived many mass extinctions. I have no heart and no brain, just a net of nerves that senses light and touch. Some of my cousins can restart their life cycle when stressed. I move by gently pulsing my bell, and I'm food for turtles, fish and crabs.|polluted, warming water
+turtle|I hatched on a beach at night and ran to the sea alone. Only a tiny number of hatchlings survive to adulthood, and it takes decades for me to grow up. I use Earth's magnetic field to navigate, and I can hold my breath for hours when resting. Every beach I return to is a promise to the next generation.|plastic bags that look like jellyfish
+whale|I sing, I breathe through a blowhole, and my ancestors were land animals that walked on four legs millions of years ago. My family recycles the ocean: our waste feeds tiny plankton, and when we die our bodies feed the deep sea for decades. I'm not a monster, I'm a gardener of the sea.|ropes, fishing gear and fast ships
+seal|I can nap underwater and hold my breath for long stretches. My thick whiskers feel the tiny waves left behind by a passing fish, even in the dark. A seal pup is born fluffy, but it learns to swim and hunt very fast. I look soft, but I'm built for cold seas, speed and survival.|fishing nets and plastic rings
+crab|I carry my skeleton on the outside, so to grow I have to shed my shell and hide while the new one hardens. I sense chemicals with my legs, see with eyes on stalks, and wave my claws to talk. I'm small, but beaches and mudflats depend on my cleaning and digging.|plastic and pollution on my beach
+starfish|I have no brain and no blood. Seawater moves through my body to carry oxygen and nutrients, and tiny eyespots at the tip of each arm sense light and dark. I can push my stomach out of my body to digest prey. Slow doesn't mean helpless: a sea star can shape a whole tide pool.|warming water and wasting disease
+orca|I'm at the top of the food chain, and my family teaches me everything. Each pod has its own dialect and hunting traditions, passed from mothers to calves. Grandmothers lead the pod long after they stop having babies, which very few animals do. I live with my family for life, the opposite of a lonely villain.|pollution, loud ships and less food
+mantaray|I can be wider than a car is long, and I have no stinger, only a gentle push through the water. I funnel plankton into my mouth with two flexible fins on my head. Some of us visit cleaning stations on the reef to be tidied by small fish. Scientists think I'm curious and clever.|fishing nets and swallowing plastic
+stingray|I bury myself in sand so only my eyes show, and I breathe through holes on my back so I don't inhale sand. I look flat, but I'm a close relative of sharks, with a skeleton of cartilage. I glide above the seabed hunting shellfish and worms. I only want to hunt in peace.|fishing nets and shrinking habitats
+clownfish|I'm born male, and if the female of my group disappears, the biggest male becomes female. I live in the same anemone for life, defending it from fish that want to nibble it. I fan its tentacles with fresh water and feed it with my waste. Home is everything to me, which is why a bleaching reef scares me.|hot water that bleaches my anemone home
+seahorse|I have no stomach, so I eat almost all day, sucking up tiny shrimp with my snout. My eyes move independently. Each morning my partner and I greet each other with a dance. Dad carries the babies, and once they are born they are on their own. I'm not a toy, I'm a slow, careful survivor.|bottom trawling and the loss of my seagrass home
+morayeel|I have a second set of jaws inside my throat that shoot forward to pull prey in. I can't see well, but my sense of smell is excellent. I open and close my mouth to pump water over my gills, which looks scary but is just breathing. Cleaner shrimp tidy my skin, so we get along fine.|lost traps and trash in my rocky home
+barracuda|I can sprint in short bursts faster than most fish and strike in a flash. Young barracuda hide in mangroves and seagrass, then move out to the open reef as they grow. Silver and streamlined, I cruise in a school when I'm young and alone when I'm older. I'm a predator, but I'm not out to get you.|fishing nets and polluted reefs
+pufferfish|I'm a slow swimmer, so I need a trick. When threatened, I stretch my elastic stomach and fill it with water until I'm a spiny ball. My fused teeth form a beak that never stops growing, so I crunch hard shells to wear it down. I'm clumsy, but clever. I'd rather not puff up at all.|plastic trash I might mistake for food
+lionfish|I spread my fins like a fan to herd small fish into a corner. I'm native to the Indo-Pacific. In the Atlantic I'm an invader brought in by people, a problem I never chose. In my home waters, other animals keep my numbers balanced. I'm beautiful and venomous, but I'm not the villain of this story.|pollution and plastic on my reef
+blueringedoctopus|I'm small, but my venom is made with help from bacteria living in my glands. I spend most of my day hiding in crevices, and my blue rings flash only when I'm threatened. I carry my eggs under my arms for months and don't eat while I guard them. I'm a shy mother, not a monster in the tide pool.|trash in my tide pool home
+seaotter|I have the thickest fur of any animal, up to a million hairs in a square inch. I groom it constantly to trap air and stay warm. I eat about a quarter of my body weight each day, and I keep a favorite rock in a pocket under my arm. By hunting urchins, I protect kelp forests that shelter thousands of species.|oil spills that ruin my fur
+walrus|I weigh over a tonne, yet I can dive deep and hold my breath for a long time. I'm very social and sleep in huge piles on the ice. My tusks keep growing all my life and help me climb onto the ice. I use my whiskers to find clams in murky mud. I need floating ice as a place to rest.|melting sea ice
+manatee|I'm a slow, gentle plant-eater who spends hours each day grazing seagrass. I can eat about ten percent of my body weight daily. I come up to breathe every few minutes, but I can rest underwater for much longer. My distant relatives include elephants, and I live in warm, shallow water where boats travel fast.|speeding boats and cold, polluted water
+narwhal|I live in the Arctic, mostly under thick sea ice. My tusk is a tooth that can be around two meters long, and scientists think it's packed with sensors. I dive very deep for fish and squid. Every winter I depend on a few small breathing holes in the ice.|a shrinking, noisy Arctic
+beluga|I can swim backward, which most whales can't, and I can turn my head because my neck bones aren't fused. My forehead, called the melon, changes shape as I make sounds. I live in cold Arctic waters and sometimes swim into rivers. I'm born gray and slowly turn white as I grow up.|noise and pollution
+humpbackwhale|I travel thousands of kilometers each year between cold feeding grounds and the warm waters where I have my calves. I blow nets of bubbles to trap fish, and my long flippers help me steer. The pattern under my tail is unique, and scientists use it like a fingerprint to know me. Other whales learn my song.|fishing ropes and nets
+spermwhale|I dive deeper than almost any other mammal, more than a kilometer down, and I can stay under for over an hour. I hunt squid in the dark using clicks that are among the loudest sounds made by any animal. I live in family groups where females help raise one another's calves.|plastic and fishing nets that I swallow
+whaleshark|I'm the biggest fish in the sea, and I eat some of the smallest things: plankton and tiny fish. My spots are unique, like a fingerprint. I can live for decades and travel across entire oceans. I have thousands of tiny teeth, but I never use them to bite. I filter, I don't chase.|ships and the plastic I filter
+hammerheadshark|My wide head holds extra electric sensors that detect prey hidden in sand. My eyes sit at the ends, giving me almost a full-circle view. Some of us gather in huge schools during the day and hunt alone at night. Many of my young are born in shallow, safe nurseries near the coast.|nets and longlines
+nurseshark|I use strong suction to pull prey out of crevices, and I rest in groups during the day, sometimes piled on each other. Small whisker-like barbels near my mouth help me feel for food. I'm slow, calm and mostly active at night. Divers often meet me asleep and leave me in peace.|fishing gear and trash on the reef floor
+seaurchin|I have no eyes, but my whole body senses light. I move on hundreds of tube feet and scrape algae with a five-part mouth called Aristotle's lantern. My spines protect me, and some of us live for decades. I'm a gardener of the reef, keeping algae in check so coral can grow.|pollution and warming water
+seacucumber|I breathe through my backside, and I can toss out some of my insides to distract a predator and regrow them later. I swallow sand to eat the tiny life in it, and I leave cleaner sand behind. I move slowly on tube feet and hide in plain sight. I'm a vacuum cleaner of the seafloor.|overfishing and dirty sand
+seaanemone|I'm an animal that looks like a flower. I usually sit on rocks, but I can slowly glide on my foot if I'm unhappy. My stinging tentacles paralyze small prey, and some algae live inside me and share food. I can live for decades. Some fish live safely in my arms, so I'm a home as well as a hunter.|hot water that bleaches me
+coral|I'm built by tiny polyps that make a limestone skeleton and live together in colonies. Reefs cover a tiny fraction of the ocean floor but shelter about a quarter of marine species. Algae living in my tissue give me color and food, which is why I turn white when I'm stressed. I take years to grow and moments to die.|hot water, pollution and plastic
+sponge|I have no brain, no heart and no stomach, yet my family has lived on Earth for more than half a billion years. I pump huge amounts of water through my body every day and filter out bacteria. Some of my kind live for hundreds of years. I'm a living filter that keeps the water clean.|tiny plastic that clogs my pores
+nautilus|I've lived in nearly the same shape for hundreds of millions of years. I live in a spiral shell divided into chambers, and I adjust the gas in them to rise or sink. I rise toward shallower water at night to feed and return to the deep by day. My shell is beautiful, and that is my curse.|being hunted for my shell
+giantsquid|I have the largest eyes in the animal kingdom, about the size of a dinner plate, to spot sperm whales in the dark. Nobody filmed me alive in the deep until 2012. I'm not a kraken, I'm a shy deep-sea animal with two long feeding tentacles. I live far from your world, but your trash drifts into mine.|trash and noise drifting into the deep
+cuttlefish|I have three hearts and blue-green blood, and my eyes have W-shaped pupils. I change color in a heartbeat even though I'm colorblind, and I flash patterns to talk with other cuttlefish. In tests, I've shown I can wait for a better treat, a sign of self-control. I'm a master of disguise because I have to be.|pollution and nets
+hermitcrab|I have a soft body, so I borrow a shell for protection. When I find a larger shell, I wait in line with other crabs, and we trade up one by one. This swap chain is called a vacancy chain. I'm a recycler: someone else's old home is the perfect new home for me.|plastic caps and trash instead of shells
+lobster|I taste with my legs, and my two claws are different: one crusher and one cutter. I live many years, and I keep growing as I shed my shell. My blood is blue because it contains copper. I hunt at night and hide in rock crevices by day. I'm not red until you cook me.|lost traps and warming water
+mantisshrimp|My club strikes about as fast as a bullet from a small gun, and the water boils around it from the impact. My eyes have up to sixteen types of color receptors, compared to your three. I live in a burrow that I defend fiercely. People call me violent. I'm just very well equipped.|dying reefs and pollution
+krill|I'm only a few centimeters long, but my swarms can stretch for kilometers. I travel up and down each day, eating algae at night and hiding in the deep by day. I'm the main meal for whales, penguins and seals, and I help move carbon to the deep sea. If I vanish, the whole food chain falls.|warming water and the plastic I swallow
+barnacle|As a larva I swim free, but as an adult I glue myself headfirst to a rock, a whale or a boat for life. My glue is one of the strongest natural glues, and scientists study it. I sweep plankton into my mouth with feathery legs. I stick to my choices, literally.|polluted water
+horseshoecrab|My blood is blue and contains cells that clump around bacteria, which is used to test medicines for safety. I'm older than the dinosaurs and have barely changed. I walk the seabed on ten legs and have many eyes. In spring I come ashore in huge groups to lay eggs, and migrating birds depend on them.|losing my nesting beaches
+parrotfish|At night I wrap myself in a bubble of mucus, thought to hide my scent from predators. I scrape algae off coral with my beak and grind it up, then I make sand. When a school of us grazes, coral gets room to grow. Many of us change color and even sex as we grow.|overfishing and dying reefs
+anglerfish|I live in the deep, where it's dark and food is scarce. The glowing lure on my head is lit by bacteria. In some species, the males are tiny and fuse to the female permanently. I can swallow prey as big as myself thanks to my stretchy stomach. I'm hungry, not hateful.|trash and noise sinking into the deep
+flyingfish|I race along the surface and launch, spreading my big fins to glide. Some of my flights last for hundreds of meters, a few meters above the water. I do this to escape tuna, dolphins and swordfish. I'm not a bird, I'm a fish that found a way to leave the sea for a moment.|plastic floating on the surface where I glide
+swordfish|I'm fast, with a smooth, torpedo-shaped body, and as an adult I have no scales or teeth. I warm my eyes and brain so I can hunt in cold, deep water. I dive deep by day and rise toward the surface at night. My long bill slices through schools of fish like a blade. I'm not a pirate.|fishing lines and overfishing
+tuna|I'm built for speed and distance. I never stop swimming, and I keep my body warmer than the water around me, which powers my muscles. Some of us cross entire oceans each year and live for decades. I'm one of the ocean's great travelers, but I'm often seen only as food.|overfishing
+oceansunfish|I'm the heaviest bony fish in the sea, and I have a rudder instead of a tail. I bask on my side at the surface to warm up after cold dives, and seabirds sometimes pick parasites off my skin. I start as a tiny larva and grow enormously. I'm an oddball, but I'm well built.|plastic bags that look like jellyfish
+penguin|I'm a bird who traded flying for swimming, and my wings are strong flippers. In some of my family, we huddle in thousands to keep warm and take turns standing in the middle. Dads keep eggs warm on their feet for weeks. I waddle on land, but underwater I fly. Fish and krill are my food.|melting ice and empty seas
+seasnake|I'm a reptile that breathes air, but I can stay under for a long time, and I even absorb some oxygen through my skin. My paddle tail helps me swim, and a gland gets rid of extra salt. I'm curious and may come close to divers, but I'm rarely aggressive. Please give me space.|trawl nets and polluted coasts
+marineiguana|I'm the only lizard that feeds in the sea. I dive to graze on algae, then rest on warm black rocks to heat up. I sneeze out extra salt through special glands near my nose. In hard years, I can shrink my body to survive the lack of food. I live only in the Galapagos Islands.|oil spills and plastic washing up on my rocks
+elephantseal|I can dive for more than an hour and go very deep. On land, males battle for the beach, but I spend most of my life at sea. I fast for weeks during breeding and molting season. I'm enormous, with the big nose that gave me my name, but I'm usually peaceful when left alone.|fishing nets and plastic
+sealion|I can walk on all four flippers, and I'm louder than my seal cousins with a barking voice. I live in noisy colonies and I'm playful and curious. My ear flaps show that I'm a sea lion. I'm fast and agile in the water, and I slip past divers like a torpedo.|fishing nets and plastic rings
+porpoise|I'm smaller than a dolphin, and my teeth are flat, not cone-shaped. I'm shy and avoid boats. I'm a quiet swimmer, and many of us live in cold coastal waters. I'm not the Flipper type. People often confuse me with my cousin, but I'm happy being a little less famous.|gillnets and noisy ships
+cleanerwrasse|I run a tiny cleaning station on the reef. Big fish, even sharks and eels, come to me to have parasites removed. I dance to advertise my service. I'm one of the few fish said to pass a mirror test. I'm small, I'm smart, and the reef is healthier because of me.|dirty, dying reefs
+remora|I carry a sucker on my head, which is actually a modified fin, to hitch a ride on sharks, rays, whales and turtles. I get free travel, safety and leftovers. I sometimes clean my host's skin. I'm not harmful to my host. I'm a hitchhiker who gives back.|plastic and the loss of my hosts
+portuguesemanowar|I'm not one animal, I'm a colony of different kinds of tiny animals working together. My gas-filled float sails me across the ocean on the wind. My tentacles can reach many meters long and sting painfully. I drift in groups called fleets. Even washed up on a beach I can still sting, so please keep your distance.|plastic and polluted shores
+nudibranch|I'm a sea slug with no shell, and I wear my gills outside like flowers. My bright colors are a warning, because some of us store stinging cells taken from our prey. I find food with my smell sensors, called rhinophores. I'm tiny, but I might be the most colorful animal in the sea.|pollution and warming seas
+dugong|I graze on the seabed, and I leave long trails in the seagrass as I feed. I can live for decades but have very few babies, so we recover slowly. I'm a close relative of the manatee, and sailors may have told mermaid tales about me. I'm gentle, shy and slow.|fishing nets and lost seagrass meadows`.split("\n").map(l=>{const[i,p,f]=l.split("|");return[i,[p,f]]}));
+let G,L,R3;
+const nm=id=>A.find(a=>a[0]==id)[2];
+const P={
+home:()=>`<div class="hero" style="--a:#8fdcf0">${IMG.hero?`<img src="${IMG.hero}" alt="">`:`<span class="hl">Hero photo goes here (hero)</span>`}<div class="ht"><h1>You think you know them.</h1><p>Ocean animals are judged by stereotypes before anyone gets to know them. In this realm, 60 animals speak for themselves. Read their stories, test your knowledge, play the games, and see if your opinion changes.</p><a class="b" href="#animals">Meet the animals</a></div></div>
+<div class="card"><h2>Risk Assessment Scale</h2><p>Before you start, tap how scared you are of each animal.</p>${scale("a_")}<div style="text-align:center;margin-top:1rem"><button class="b" onclick="savePre()">Start exploring</button></div></div>`,
+animals:()=>`<h1>Meet the 60 animals</h1><p>Each one tells their own story.</p><div class="grid">${A.map(a=>`<a href="#animal/${a[0]}">${slot(a[0]+"-main",a[2],a[3])}${a[2]}</a>`).join("")}</div>`,
+animal:id=>{const i=A.findIndex(a=>a[0]==id),a=A[i]||A[0],n=A[(i+1)%60],p=A[(i+59)%60];return`<div style="--a:${a[3]}"><span class="tag">${a[2]}</span><h1 style="font-size:clamp(1.8rem,5vw,3rem);line-height:1.1">${a[4]}</h1>
+<div class="two">${slot(a[0]+"-main",a[2]+" main photo",a[3])}<div><div class="q">Common stereotype: "${a[5]}"<br><b>${a[6]}</b></div><p>${a[7][0]}</p></div></div>
+${a[7][1]?`<p>${a[7][1]}</p>`:""}${MORE[a[0]]?`<p>${MORE[a[0]][0]}</p>`:""}${slot(a[0]+"-extra",a[2]+" natural behavior photo",a[3])}
+${MORE[a[0]]?`<h2 style="margin-top:2rem">What I'm most scared of</h2><div class="two fz">${slot(a[0]+"-fear","Sad photo: "+a[2]+" ("+a[0]+"-fear)",a[3])}<div><p style="font-size:1.25rem">I'm most scared of <b>${MORE[a[0]][1]}</b>.</p><p>Please help keep my ocean clean, so I can keep telling my own story.</p></div></div>`:""}
+<div style="display:flex;justify-content:space-between;margin-top:1.5rem"><a class="b" href="#animal/${p[0]}">&larr; ${p[2]}</a><a class="b" href="#animal/${n[0]}">${n[2]} &rarr;</a></div></div>`},
+game1:()=>{G={q:sh(TF),i:0,s:0};return`<h1>Fact or Fiction</h1><div class="card gm" id="gb"></div><div class="card"><h2>The Beauty of Marine Animals</h2><p>Beneath the surface lives a world of color, motion and wonder: glowing jellyfish, gliding rays, dancing seahorses, and giants that sing across whole oceans. Behind every stereotype is a living animal with a story worth seeing clearly.</p><h3>Take a break and enjoy looking at the marine friends</h3><div class="gal2">${GAL.map(g=>`<img src="${g[0]}" alt="${g[1]}" loading="lazy" onclick="zoom(this.src)">`).join("")}</div></div>`},
+game2:()=>{G={q:sh(BP),i:0,s:0};return`<h1>Which Animal Is This?</h1><p>You see one body part. Pick the animal it belongs to.</p><div class="card gm" id="gb"></div>`},
+video:()=>`<h1>Video</h1>${VIDEOS.map((v,i)=>`<div class="card" style="margin-bottom:18px"><video controls playsinline preload="metadata" style="width:100%;aspect-ratio:16/9;border-radius:14px;background:#000" poster="${VPOSTERS[i]}" src="${v}" onfullscreenchange="vfs(this)" onwebkitfullscreenchange="vfs(this)"></video></div>`).join("")}`,
+reflect:()=>`<div class="card"><h2>Will your opinion change?</h2><p>Now that you've met them, tap again. How scared are you of each animal now?</p>${scale("b_")}<div style="text-align:center;margin-top:1rem"><button class="b" onclick="cmp()">See my change</button></div><div id="cmp"></div></div>`};
+const TH=["assets/img_35903e2ecb.jpg", "assets/img_f03e85efa0.jpg", "assets/img_5acd6d862f.jpg", "assets/img_bfb95015dc.jpg", "assets/img_6a9fb07d85.jpg", "assets/img_2984bbf3d9.jpg", "assets/img_6944949b87.jpg", "assets/img_2dea22d244.jpg", "assets/img_435393a055.jpg"];const THC=[["Stranded sea snake", "A beaked sea snake lying on the sand. Sea snakes breathe air, and many are caught by accident in fishing nets."], ["Frozen by the cold", "Cold-stunned iguanas collected after a cold snap in Florida. Reptiles can't warm themselves, so sudden cold can freeze them in place."], ["Caught in a net", "A seal wrapped in a discarded fishing net. Lost nets can cut skin and stop animals from swimming or hunting."], ["Fishing line wrapped tight", "Thin fishing line wrapped around a sea lion. Even a fine thread can cut deeper as an animal grows."], ["The vaquita", "A vaquita tangled in a gillnet. This small porpoise is critically endangered, and only a handful remain."], ["Nets that never stop", "A fish tangled in a net. Abandoned nets keep catching animals long after the fishermen are gone."], ["A shark lost", "A reef shark lying on the seabed with a deep wound. Millions of sharks die every year in fishing gear."], ["Washed ashore", "Blue by-the-wind sailors stranded on a beach. Wind and storms can push open-ocean animals onto the sand."], ["Look, but leave them", "A sea slug scooped into a plastic bag. Tide-pool animals are safest when we watch them and leave them where they live."]];
+P.threats=()=>`<h1>What our ocean faces</h1><p>These animals are not the danger. Most of the danger comes from us.</p><div class="th">${THC.map((c,i)=>`<figure><img src="${TH[i]}" alt="${c[0]}" loading="lazy"><figcaption><b>${c[0]}</b><p>${c[1]}</p>${i==6?`<small>Photo: Justin Ebert</small>`:""}</figcaption></figure>`).join("")}</div><div class="card"><h2>What you can do</h2><p>Pick up fishing line and plastic, never buy products from endangered animals, and leave tide-pool animals where they live. Small habits protect real animals.</p><a class="b" href="#animals">Meet the animals</a></div>`;
+Object.assign(IMG,{"seasnake-fear": "assets/img_7c5653e292.png", "marineiguana-fear": "assets/img_23ecb7060f.png", "elephantseal-fear": "assets/img_6d48cd5b30.png", "sealion-fear": "assets/img_09853872f1.png", "porpoise-fear": "assets/img_53fbf3ebe4.png", "cleanerwrasse-fear": "assets/img_f2aa0b5f6e.png", "remora-fear": "assets/img_08d0a00410.png", "portuguesemanowar-fear": "assets/img_3c1d6d2a51.png", "nudibranch-fear": "assets/img_435393a055.jpg", "dugong-fear": "assets/img_37c1ac00ef.png"});
+const GAL=[["assets/img_c6ef215d1a.png", "Ocean waves"], ["assets/img_14ec5fe749.png", "Humpback whale breaching"], ["assets/img_dfdddac836.png", "Two orcas leaping"], ["assets/img_c2278b8066.png", "Glowing blue jellyfish"], ["assets/img_b7e2a82c18.png", "Starfish in clear water"], ["assets/img_d0ce4cacac.png", "Sea turtle swimming over a reef"], ["assets/img_2dc309ea45.png", "Whale shark with fish"], ["assets/img_571d32019f.png", "Colorful reef fish"], ["assets/img_5de9ebafdf.png", "Waves on a sandy beach"], ["assets/img_da5dc6358e.png", "Sailboats at sunset"], ["assets/img_969b80a634.png", "Sunrise over the sea"], ["assets/img_5a9294aa7a.png", "Seashells on the sand"], ["assets/img_546727f5ed.png", "Three sea otters floating"], ["assets/img_990d05da01.png", "Polar bear floating in water"], ["assets/img_015f42aa37.png", "Harp seal pup underwater"], ["assets/img_4e65d8d62b.png", "Beluga blowing a bubble ring"], ["assets/img_2e202e5253.png", "Orca at the surface"], ["assets/img_5df352f1a0.png", "Colorful starfish"], ["assets/img_807c11bbc4.png", "Sea otter mother with her pup"], ["assets/img_3130bdd7fd.png", "Manta ray with a diver"], ["assets/img_eca096f333.png", "Clownfish in an anemone"], ["assets/img_64ea6fba83.png", "Emperor penguin chick"], ["assets/img_b7e275fa48.png", "Dark waves under a stormy sky"], ["assets/img_a49c53b495.png", "Humpback whale tail at sunset"], ["assets/img_b42862d212.png", "Crab raising its claws on the beach"], ["assets/img_99b101808a.png", "Two horses galloping through the surf"], ["assets/img_a4c825ee40.png", "Sharks seen from below"], ["assets/img_e54ddb2c78.png", "Two dolphins"], ["assets/img_52c5a68f63.png", "Sea turtle at the surface"], ["assets/img_fbbbe5f6b2.png", "Narwhal with its tusk"], ["assets/img_2d31c0c609.png", "Flying fish gliding over the sea"], ["assets/img_27763e4b87.png", "Seahorse"], ["assets/img_63e326c77f.png", "Small blue octopus on the sand"], ["assets/img_3056a32315.png", "Baby sea turtle on the sand"], ["assets/img_9115793a01.png", "Conch shell on the beach"], ["assets/img_e813683ed2.png", "Pink betta fish"], ["assets/img_605d8afea4.png", "Otter looking at the camera"], ["assets/img_9a48683ba3.png", "Orcas swimming among sea ice"], ["assets/img_2527e5b877.png", "Whale shark from above"]];
+function zoom(src){document.body.insertAdjacentHTML("beforeend",`<div class="zm" onclick="this.remove()"><img src="${src}" alt=""></div>`)}
+P.apology=()=>`<h1>A letter to the ocean</h1><p>Write your apology. When you are ready, send it to the ocean.</p><div class="ap" id="ap"><div class="paper"><b>Dear Ocean,</b><p class="hint">Tell the ocean what you are sorry for and what you promise to do.</p><textarea id="aptx" dir="auto" maxlength="1500" rows="7" autocomplete="off" aria-label="Your letter"></textarea><label class="apl"><span>Your name (optional)</span><input id="apnm" type="text" dir="auto" maxlength="40" autocomplete="off"></label><p id="aperr" class="aperr" hidden>Please write something before you send.</p><div style="text-align:center;margin-top:.8rem"><button class="b" onclick="sendLetter()">Send to the ocean</button></div></div></div>`;
+function sendLetter(){const t=$("#aptx").value.trim();if(!t){$("#aperr").hidden=false;return}const nm=$("#apnm").value.trim();
+$("#ap").innerHTML=`<div class="scene" id="scene"><div class="am" id="am1">Your letter is on its way…</div><div class="envw" id="envw"><div class="env" id="env"><div class="eb"></div><div class="lt"><b>Dear Ocean,</b><div id="ltx" dir="auto"></div><div id="lnm" dir="auto"></div></div><div class="ef"></div><div class="fl"></div><div class="sl">🌊</div><div class="to">To: The Ocean</div></div></div><div class="sea"></div><div class="sea2"></div></div><div id="done" class="done" hidden><p>The ocean has your letter. Thank you for caring.</p><button class="b" onclick="route()">Write another letter</button></div>`;
+$("#ltx").textContent=t;$("#lnm").textContent=nm?"— "+nm:"";
+const at=(ms,f)=>setTimeout(()=>{if($("#env"))f()},ms),e=$("#env"),w=$("#envw");
+at(300,()=>e.classList.add("in"));at(1800,()=>e.classList.add("closed"));at(2700,()=>e.classList.add("sealed"));
+at(3800,()=>{e.classList.add("toss");w.classList.add("float")});at(5600,()=>e.classList.add("drift"));
+at(8800,()=>{$("#am1").style.opacity=0;$("#done").hidden=false;try{snd(1)}catch(x){}})}
+Object.assign(IMG,{"part-shark": "assets/img_bd521240ad.png", "part-turtle": "assets/img_b1f7e634c5.png", "part-narwhal": "assets/img_5ab8ad993c.png", "part-seal": "assets/img_47340fb7be.png", "part-swordfish": "assets/img_f7414e5c93.png", "part-mantaray": "assets/img_e11496f103.png", "part-crab": "assets/img_1defb3dc59.png", "part-pufferfish": "assets/img_8d03917902.png", "part-walrus": "assets/img_4c03fdf05e.png", "part-seahorse": "assets/img_f1c70dfa0b.png", "part-lobster": "assets/img_2c11ccf503.png", "part-hammerheadshark": "assets/img_2a19ae53b0.png", "part-jellyfish": "assets/img_3c4b69a929.png", "part-whale": "assets/img_2d07af44e1.png", "part-starfish": "assets/img_90f37b2126.png", "part-orca": "assets/img_3d3422b034.png", "part-penguin": "assets/img_7471e63811.png", "part-dolphin": "assets/img_867009c7f8.png", "part-nautilus": "assets/img_8707c0991e.png", "part-octopus": "assets/img_e7e3529384.png"});
+const ESSAY=`<div style="margin-top:1.5rem"><h2>Don't judge them by the stereotype</h2><p>Every animal on this site started as a stereotype: the shark as a killer, the dolphin as a perfect friend, the jellyfish as a stinger, the orca as a villain, the crab as a grump. Those pictures come from movies, headlines and fear, not from the animals themselves.</p><p>When we looked closer, the picture changed. Sharks don't hunt people, dolphins can be rough, octopuses recognize faces, turtles keep seagrass healthy, and starfish aren't even fish. Each animal is a living individual with its own behavior, its own role and its own story.</p><p>Whether your score went down, up or stayed the same, the point isn't to stop being careful. Some animals can hurt us, and respecting wildlife matters. The point is to base your opinion on facts, not on a label. Judging an animal by its stereotype is like judging a person by a rumor.</p><p>Unfair fear also has a cost: the less we understand an animal, the less we protect it. Learn the facts, share them, and keep the ocean clean, so every one of these animals gets a fair chance.</p></div>`;
+function cmp(){const b=read("b_");if(!pre){$("#cmp").innerHTML="<p>Go to Home first to set your starting answers.</p>";return}
+let t=0;const rows=A.slice(0,10).map(a=>{const d=b[a[0]]-pre[a[0]];t+=d;return`<div class="diff"><span>${a[2]}</span><span>${pre[a[0]]} to ${b[a[0]]} ${d<0?"(less scared)":d>0?"(more cautious)":"(same)"}</span></div>`}).join("");
+$("#cmp").innerHTML=`<h3>${t<0?"You're less scared overall. Stereotype busted!":t>0?"You're a bit more cautious now, and that's okay.":"Your opinion stayed the same."}</h3>${rows}${ESSAY}`}
+function tf(){if(G.i>=G.q.length){$("#gb").innerHTML=`<h2>${G.s}/${G.q.length}</h2><p>${G.s>=19?"Marine Expert!":G.s>=13?"Myth Buster!":"Ocean Explorer. Read the animal pages and try again!"}</p><button class="b" onclick="route()">Play again</button>`;return}
+const q=G.q[G.i];$("#gb").innerHTML=`<span class="tag" style="--a:#8fdcf0">Question ${G.i+1}/${G.q.length}</span><h2>${q[0]}</h2><div class="opts"><button class="b t" onclick="tfa(1)">TRUE</button><button class="b f" onclick="tfa(0)">FALSE</button></div><div id="r"></div>`}
+function tfa(v){const q=G.q[G.i],ok=v==q[1];snd(ok);if(ok)G.s++;document.querySelector(".opts").style.display="none";$("#r").innerHTML=`<h3 style="color:${ok?"#4be39a":"#ff7d8f"}">${ok?"Correct!":"Wrong!"} It's ${q[1]?"true":"false"}.</h3><p>${q[2]}</p><button class="b" onclick="G.i++;tf()">Next</button>`}
+function bp(){if(G.i>=G.q.length){$("#gb").innerHTML=`<h2>${G.s}/${G.q.length}</h2><button class="b" onclick="route()">Play again</button>`;return}
+const q=G.q[G.i],o=sh([q[0],...sh(A.map(a=>a[0]).filter(x=>x!=q[0])).slice(0,3)]);
+$("#gb").innerHTML=`<span class="tag" style="--a:#8fdcf0">Round ${G.i+1}/${G.q.length}</span>${slot("part-"+q[0],"Body part photo "+(G.i+1)+" (part-"+q[0]+")")}<p style="color:var(--mu)">Clue: ${q[1]}</p><h2>Which animal does this body part belong to?</h2><div class="opts">${o.map(x=>`<button class="b o" onclick="bpa('${x}')">${nm(x)}</button>`).join("")}</div><div id="r"></div>`}
+function bpa(id){const q=G.q[G.i],ok=id==q[0];snd(ok);if(ok)G.s++;document.querySelector(".opts").style.display="none";$("#r").innerHTML=`<h3 style="color:${ok?"#4be39a":"#ff7d8f"}">${ok?"Correct!":"Wrong!"} It's the ${nm(q[0])}.</h3><button class="b" onclick="G.i++;bp()">Next</button>`}
+function lose(){try{const c=ac();[320,240,170,110].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.type="sawtooth";o.frequency.value=f;o.connect(g);g.connect(c.destination);const t=c.currentTime+i*.18;g.gain.setValueAtTime(.18,t);g.gain.exponentialRampToValueAtTime(.001,t+.17);o.start(t);o.stop(t+.18)})}catch(e){}}
+function vfs(v){try{const fs=document.fullscreenElement||document.webkitFullscreenElement;if(fs&&screen.orientation&&screen.orientation.lock)screen.orientation.lock("landscape").catch(()=>{});else if(!fs&&screen.orientation&&screen.orientation.unlock)screen.orientation.unlock()}catch(e){}}
+function stop(){cancelAnimationFrame(L);document.onkeydown=null;onresize=null;if(R3){R3.dispose();R3=null}}
+const N=[["home","Home"],["animals","Animals"],["game1","Fact or Fiction"],["game2","Body Parts"],["video","Video"],["threats","Threats"],["apology","Apology"],["reflect","Reflect"]];
+function route(){stop();const[p,id]=(location.hash.slice(1)||"home").split("/"),pp=P[p]?p:"home";
+$("#nav").innerHTML=NAVHEAD+N.map(n=>`<a href="#${n[0]}" class="${n[0]==pp||(pp=="animal"&&n[0]=="animals")?"on":""}">${n[1]}</a>`).join("")+NAVTAIL;
+$("#app").innerHTML=P[pp](id);scrollTo(0,0);if(pp=="game1")tf();if(pp=="game2")bp()}
+
+const LOGO="assets/img_8f0c7b1183.png";
+let LANG="en";try{LANG=localStorage.getItem("lang")||"en"}catch(e){}
+const AR=/[\u0600-\u06FF]/,mk=t=>Object.fromEntries(t.split("\n").map(l=>l.split("|")));
+const XX=Object.assign(mk(`Home|الرئيسية
+Animals|الحيوانات
+Fact or Fiction|حقيقة أم خيال
+Body Parts|أجزاء الجسم
+Survival|البقاء
+Video|الفيديو
+Reflect|رأيك الآن
+You think you know them.|تظن أنك تعرفها.
+Meet the animals|تعرّف على الحيوانات
+Risk Assessment Scale|مقياس تقييم الخطر
+Before you start, tap how scared you are of each animal.|قبل أن تبدأ، اضغط على مدى خوفك من كل حيوان.
+Start exploring|ابدأ الاستكشاف
+Not scared|لست خائفاً
+A little|قليلاً
+Unsure|لا أدري
+Scared|خائف
+Very scared|خائف جداً
+Meet the 60 animals|تعرّف على الحيوانات الستين
+Each one tells their own story.|كلٌّ منها يحكي قصته بنفسه.
+What I'm most scared of|ما يخيفني أكثر
+Please help keep my ocean clean, so I can keep telling my own story.|ساعدوا في الحفاظ على نظافة محيطي، لأواصل حكاية قصتي بنفسي.
+Let me tell you my side.|دعني أحكي لك قصتي.
+I'm not the monster you think I am.|لست الوحش الذي تظنه.
+I'm not always the perfect friend.|لستُ دائماً الصديق المثالي.
+I'm not just a weird sea creature.|لستُ مجرد مخلوق بحري غريب.
+I'm more than a sting.|أنا أكثر من مجرد لسعة.
+I'm not just the cute one.|لستُ مجرد اللطيفة.
+Yes, I'm huge. That doesn't make me a monster.|نعم، أنا ضخم. لكن هذا لا يجعلني وحشاً.
+Cute doesn't mean I have no wild side.|اللطافة لا تعني أنني بلا جانب بريّ.
+I walk sideways. So what?|أمشي جانبياً. وماذا في ذلك؟
+I'm not even a fish.|أنا لست حتى سمكة.
+Am I the ocean's villain?|هل أنا شرير المحيط؟
+Let's bust it|لنفنّد هذا
+Misleading|مضلِّل
+Incomplete|ناقص
+Underestimated|مستهان به
+Oversimplified|مبسَّط أكثر من اللازم
+Myth|خرافة
+Partly true|صحيح جزئياً
+The Beauty of Marine Animals|جمال الحيوانات البحرية
+Take a break and enjoy looking at the marine friends|خذ استراحة واستمتع بالنظر إلى أصدقائنا البحريين
+TRUE|صحيح
+FALSE|خطأ
+Next|التالي
+Play again|العب مرة أخرى
+Marine Expert!|خبير بحري!
+Myth Buster!|كاشف الخرافات!
+Ocean Explorer. Read the animal pages and try again!|مستكشف المحيط. اقرأ صفحات الحيوانات وحاول مرة أخرى!
+Which Animal Is This?|أي حيوان هذا؟
+You see one body part. Pick the animal it belongs to.|ترى جزءاً واحداً من الجسم. اختر الحيوان الذي ينتمي إليه.
+Which animal does this body part belong to?|أي حيوان ينتمي إليه هذا الجزء؟
+Exit|خروج
+Full screen|ملء الشاشة
+Skins|الأشكال
+Ready|جاهز
+Ready to escape?|هل أنت مستعد للهروب؟
+Swim with your finger, mouse or arrow keys. Avoid the plastic monsters!|اسبح بإصبعك أو الفأرة أو مفاتيح الأسهم. تجنّب وحوش البلاستيك!
+The monster got you!|أمسك بك الوحش!
+Plastic and pollution put real ocean animals in danger every day.|البلاستيك والتلوث يعرّضان حيوانات المحيط الحقيقية للخطر كل يوم.
+Earn coins by collecting gold and finishing levels, then pick your favorite animal.|اكسب العملات بجمع الذهب وإنهاء المستويات، ثم اختر حيوانك المفضل.
+Selected|مختار
+Select|اختيار
+Close|إغلاق
+Your video goes here|فيديو الموقع هنا
+Will your opinion change?|هل سيتغير رأيك؟
+Now that you've met them, tap again. How scared are you of each animal now?|الآن وقد تعرفت عليها، اضغط من جديد. ما مدى خوفك من كل حيوان الآن؟
+See my change|اعرض تغيّر رأيي
+You're less scared overall. Stereotype busted!|أنت أقل خوفاً بشكل عام. تم تفنيد الصورة النمطية!
+You're a bit more cautious now, and that's okay.|أنت أكثر حذراً قليلاً الآن، وهذا مقبول.
+Your opinion stayed the same.|رأيك لم يتغير.
+Go to Home first to set your starting answers.|اذهب إلى الرئيسية أولاً لتحديد إجاباتك الأولى.
+Don't judge them by the stereotype|لا تحكم عليها بالصورة النمطية
+Language|اللغة
+Menu|القائمة
+Cookies|ملفات تعريف الارتباط
+Privacy Policy|سياسة الخصوصية
+© 2026 Dear Ocean|© 2026 عزيزي المحيط
+We use your browser's storage to remember your language and game progress.|نستخدم تخزين المتصفح لتذكّر لغتك وتقدّمك في الألعاب.
+Accept|موافق
+Learn more|اعرف المزيد`),mk(`Shark|القرش
+Dolphin|الدلفين
+Octopus|الأخطبوط
+Jellyfish|قنديل البحر
+Sea Turtle|السلحفاة البحرية
+Whale|الحوت
+Seal|الفقمة
+Crab|السلطعون
+Starfish|نجم البحر
+Orca|الأوركا
+Manta Ray|راي المانتا
+Stingray|الراي اللاسع
+Clownfish|سمكة المهرج
+Seahorse|حصان البحر
+Moray Eel|ثعبان البحر المورا
+Barracuda|البراكودا
+Pufferfish|سمكة النفاخ
+Lionfish|سمكة الأسد
+Blue-Ringed Octopus|الأخطبوط حلقي الأزرق
+Sea Otter|سمور البحر
+Walrus|الفظ
+Manatee|المانيتي
+Narwhal|الناروال
+Beluga|البلوغا
+Humpback Whale|الحوت الأحدب
+Sperm Whale|حوت العنبر
+Whale Shark|القرش الحوتي
+Hammerhead Shark|القرش المطرقة
+Nurse Shark|قرش الممرضة
+Sea Urchin|قنفذ البحر
+Sea Cucumber|خيار البحر
+Sea Anemone|شقائق النعمان البحرية
+Coral|المرجان
+Sponge|الإسفنج
+Nautilus|النوتيلوس
+Giant Squid|الحبار العملاق
+Cuttlefish|الحبّار الصبّاغ
+Hermit Crab|السلطعون الناسك
+Lobster|الكركند
+Mantis Shrimp|روبيان السرعوف
+Krill|الكريل
+Barnacle|البرنقيل
+Horseshoe Crab|سلطعون حدوة الحصان
+Parrotfish|سمكة الببغاء
+Anglerfish|سمكة الصيّاد
+Flying Fish|السمك الطائر
+Swordfish|أبو سيف
+Tuna|التونة
+Ocean Sunfish|سمكة الشمس
+Penguin|البطريق
+Sea Snake|ثعبان البحر
+Marine Iguana|الإغوانا البحرية
+Elephant Seal|فقمة الفيل
+Sea Lion|أسد البحر
+Porpoise|خنزير البحر
+Cleaner Wrasse|سمكة اللبرس المنظِّفة
+Remora|الريمورا
+Portuguese Man o' War|السفينة الحربية البرتغالية
+Nudibranch|عارية الخياشيم
+Dugong|الأطوم`),mk(`Sharks hunt humans on purpose.|القروش تصطاد البشر عمداً.
+Humans aren't part of a shark's natural diet.|البشر ليسوا جزءاً من الغذاء الطبيعي للقرش.
+Most shark species pose no threat to people.|معظم أنواع القروش لا تشكل خطراً على الناس.
+NOAA notes most species aren't a threat.|تشير NOAA إلى أن معظم الأنواع لا تشكل تهديداً.
+Sharks have bony skeletons.|للقروش هياكل عظمية صلبة.
+Sharks have flexible cartilage, not bone.|للقروش غضروف مرن وليس عظماً.
+Dolphins are always gentle.|الدلافين لطيفة دائماً.
+Aggressive behavior has been documented too.|وقد تم توثيق سلوك عدواني أيضاً.
+Dolphins breathe through gills.|تتنفس الدلافين عبر الخياشيم.
+Dolphins are mammals and breathe air with lungs.|الدلافين ثدييات وتتنفس الهواء برئتيها.
+Octopuses have three hearts.|للأخطبوط ثلاثة قلوب.
+Two serve the gills and one serves the body.|اثنان للخياشيم وواحد للجسم.
+Octopuses have blue blood.|دم الأخطبوط أزرق.
+Their copper-based blood looks blue.|دمهم القائم على النحاس يبدو أزرق.
+Octopuses can recognize individual humans.|يستطيع الأخطبوط التعرف على البشر فرداً فرداً.
+Educational sources like the RSPCA note this.|تشير إلى ذلك مصادر تعليمية مثل RSPCA.
+A jellyfish has a brain.|لقنديل البحر دماغ.
+Jellyfish have no brain.|قناديل البحر بلا دماغ.
+All jellyfish are dangerous to humans.|كل قناديل البحر خطيرة على البشر.
+Species vary hugely in danger.|تختلف الأنواع كثيراً في درجة الخطورة.
+Sea turtles often return to their birth beaches to nest.|كثيراً ما تعود السلاحف البحرية إلى شواطئ ولادتها لتعشّش.
+Many do, after traveling huge distances.|كثير منها يفعل ذلك بعد قطع مسافات هائلة.
+Leatherback turtles eat jellyfish.|سلاحف الجلدية تأكل قناديل البحر.
+Jellyfish are their main food.|قناديل البحر غذاؤها الرئيسي.
+Plastic is a threat to sea turtles.|البلاستيك يهدد السلاحف البحرية.
+They can eat it or get tangled in it.|قد تأكله أو تعلق فيه.
+Whales spray water out of their lungs.|الحيتان ترش الماء من رئاتها.
+The spout is exhaled breath plus water near the blowhole.|الرذاذ هو زفير مع ماء قرب فتحة التنفس.
+Whales are mammals.|الحيتان ثدييات.
+They breathe air and nurse their young.|تتنفس الهواء وترضع صغارها.
+The blue whale is the largest animal known.|الحوت الأزرق أكبر حيوان معروف.
+Bigger than any dinosaur we know of.|أكبر من أي ديناصور نعرفه.
+Seals are wild predators.|الفقمات مفترسات برية.
+They hunt fish and squid.|تصطاد الأسماك والحبّار.
+All crabs only walk sideways.|كل السلاطعين تمشي جانبياً فقط.
+Some species can walk forward.|بعض الأنواع تستطيع المشي للأمام.
+Crabs shed their shell to grow.|تتخلص السلاطعين من قشرتها لتنمو.
+This is called molting.|وتُسمى هذه العملية الانسلاخ.
+A starfish is a fish.|نجم البحر سمكة.
+It's an echinoderm; sea star is a better name.|إنه من شوكيات الجلد؛ و«نجمة البحر» اسم أفضل.
+Starfish can regrow lost arms.|يستطيع نجم البحر إعادة نمو أذرعه المفقودة.
+Many species can.|كثير من الأنواع تستطيع.
+Orcas are a type of dolphin.|الأوركا نوع من الدلافين.
+They're the largest dolphins.|إنها أكبر الدلافين.`),mk(`A powerful tail that swings side to side|ذيل قوي يتحرك من جانب إلى آخر
+A broad, flat tail that moves up and down|ذيل عريض مسطح يتحرك لأعلى وأسفل
+Eight arms lined with suckers|ثمانية أذرع مبطنة بالممصّات
+A soft bell with long trailing tentacles|جرس رخو بمجسّات طويلة متدلية
+Paddle-shaped flippers and a domed shell|زعانف كالمجاديف وصدفة مقببة
+A curved fin and a beak-like snout|زعنفة منحنية وخطم يشبه المنقار
+Two big pincers|كماشتان كبيرتان
+Five arms covered in tiny tube feet|خمسة أذرع مغطاة بأقدام أنبوبية صغيرة
+Whiskers and short flippers|شوارب وزعانف قصيرة
+A tall fin and black-and-white patches|زعنفة طويلة وبقع بيضاء وسوداء
+A long spiral tusk|ناب طويل حلزوني
+Wide, wing-like fins|زعانف عريضة تشبه الأجنحة
+A curled tail for gripping|ذيل ملتف للإمساك
+A round body with spines|جسم مستدير بأشواك
+Long antennae and big claws|قرون استشعار طويلة ومخالب كبيرة
+Long ivory tusks and bristly whiskers|أنياب عاجية طويلة وشوارب خشنة
+Flipper-like wings|أجنحة تشبه الزعانف
+A long, flat bill|منقار طويل مسطح
+A wide, flat head|رأس عريض مسطح
+A spiral chambered shell|صدفة حلزونية مقسّمة إلى حجرات`));
+const PP=[["Ocean animals are judged","يُحكَم على حيوانات المحيط بصور نمطية قبل أن يعرفها أحد. في هذا العالم تتحدث 60 حيواناً عن نفسها. اقرأ قصصها، واختبر معلوماتك، والعب الألعاب، وانظر هل يتغير رأيك."],["Beneath the surface lives","تحت السطح يعيش عالم من الألوان والحركة والدهشة: قناديل بحر متوهجة، وأسماك راي منزلقة، وأحصنة بحر راقصة، وعمالقة تغني عبر محيطات كاملة. وخلف كل صورة نمطية حيوان حيّ له قصة تستحق أن تُرى بوضوح."],["Every animal on this site started","كل حيوان في هذا الموقع بدأ كصورة نمطية: القرش القاتل، والدلفين الصديق المثالي، وقنديل البحر اللاسع، والأوركا الشريرة، والسلطعون العابس. هذه الصور تأتي من الأفلام والعناوين والخوف، لا من الحيوانات نفسها."],["When we looked closer","وعندما اقتربنا أكثر تغيّرت الصورة. القروش لا تطارد البشر، والدلافين قد تكون خشنة، والأخطبوطات تتعرف على الوجوه، والسلاحف تحافظ على صحة أعشاب البحر، ونجوم البحر ليست أسماكاً أصلاً. كل حيوان كائن حيّ له سلوكه ودوره وقصته."],["Whether your score went down","سواء ارتفعت نتيجتك أو انخفضت أو بقيت كما هي، فالهدف ليس أن تتوقف عن الحذر. بعض الحيوانات قد تؤذينا، واحترام الحياة البرية مهم. الهدف أن تبني رأيك على الحقائق لا على الألقاب. الحكم على حيوان بصورته النمطية يشبه الحكم على إنسان بإشاعة."],["Unfair fear also has a cost","والخوف الظالم له ثمن: كلما قلّ فهمنا لحيوان قلّت حمايتنا له. تعلّم الحقائق، وانشرها، وحافظ على نظافة المحيط، ليحصل كل حيوان منها على فرصة عادلة."]];
+const QQ=[["Common stereotype:","الصورة النمطية الشائعة:"],["I'm most scared of","أكثر ما يخيفني:"]];
+Object.assign(XX,mk(`Threats|التهديدات
+What our ocean faces|ما يواجهه محيطنا
+These animals are not the danger. Most of the danger comes from us.|هذه الحيوانات ليست الخطر. معظم الخطر يأتي منّا نحن.
+What you can do|ماذا يمكنك أن تفعل
+Pick up fishing line and plastic, never buy products from endangered animals, and leave tide-pool animals where they live. Small habits protect real animals.|التقط خيوط الصيد والبلاستيك، ولا تشترِ منتجات من حيوانات مهددة، واترك حيوانات برك المد في بيتها. العادات الصغيرة تحمي حيوانات حقيقية.
+Photo: Justin Ebert|الصورة: Justin Ebert
+Stranded sea snake|ثعبان بحر جانح
+A beaked sea snake lying on the sand. Sea snakes breathe air, and many are caught by accident in fishing nets.|ثعبان بحر منقاري على الرمال. ثعابين البحر تتنفس الهواء، وكثير منها يعلق بالخطأ في شباك الصيد.
+Frozen by the cold|تجمّدت من البرد
+Cold-stunned iguanas collected after a cold snap in Florida. Reptiles can't warm themselves, so sudden cold can freeze them in place.|إغوانات تجمّدت من البرد جُمعت بعد موجة صقيع في فلوريدا. الزواحف لا تستطيع تدفئة نفسها، فيشلّها البرد المفاجئ.
+Caught in a net|عالقة في شبكة
+A seal wrapped in a discarded fishing net. Lost nets can cut skin and stop animals from swimming or hunting.|فقمة ملتفّة بشبكة صيد مهجورة. الشباك الضائعة قد تجرح الجلد وتمنع الحيوان من السباحة أو الصيد.
+Fishing line wrapped tight|خيط صيد ملتفّ
+Thin fishing line wrapped around a sea lion. Even a fine thread can cut deeper as an animal grows.|خيط صيد رفيع ملتفّ حول أسد بحر. حتى الخيط الرفيع قد يقطع أعمق مع نمو الحيوان.
+The vaquita|الفاكيتا
+A vaquita tangled in a gillnet. This small porpoise is critically endangered, and only a handful remain.|فاكيتا عالقة في شبكة خيشومية. هذا الخنزير البحري الصغير مهدد بالانقراض بشدة ولم يتبقَّ منه سوى عدد قليل.
+Nets that never stop|شباك لا تتوقف
+A fish tangled in a net. Abandoned nets keep catching animals long after the fishermen are gone.|سمكة عالقة في شبكة. الشباك المهجورة تواصل اصطياد الحيوانات بعد رحيل الصيادين بوقت طويل.
+A shark lost|قرش فُقد
+A reef shark lying on the seabed with a deep wound. Millions of sharks die every year in fishing gear.|قرش شعاب ملقى على القاع بجرح عميق. ملايين أسماك القرش تموت كل عام في معدات الصيد.
+Washed ashore|جرفها الموج
+Blue by-the-wind sailors stranded on a beach. Wind and storms can push open-ocean animals onto the sand.|شراعيات زرقاء جانحة على الشاطئ. الرياح والعواصف قد تدفع حيوانات أعالي البحار إلى الرمال.
+Look, but leave them|انظر ثم اتركها
+A sea slug scooped into a plastic bag. Tide-pool animals are safest when we watch them and leave them where they live.|حلزون بحر وُضع في كيس بلاستيكي. حيوانات برك المد تكون أكثر أماناً حين نراقبها ونتركها في بيتها.`));
+Object.assign(XX,mk(`Hi, I'm a shark. Yes, the movies gave me a scary soundtrack, but humans aren't on my menu. NOAA notes that people aren't part of a shark's natural diet, and unprovoked encounters are extremely rare.|مرحباً، أنا قرش. نعم، منحتني الأفلام موسيقى مخيفة، لكن البشر ليسوا على قائمة طعامي. تشير NOAA إلى أن البشر ليسوا جزءاً من غذاء القرش الطبيعي، وأن اللقاءات غير المستفزَّة نادرة للغاية.
+Most shark species are no threat to you at all. I keep the ocean balanced by eating sick and weak animals, which keeps reefs healthy. So next time the dramatic music plays, remember: I'm just looking for a fish lunch.|معظم أنواع القرش لا تشكّل أي خطر عليك. أحافظ على توازن المحيط بأكل الحيوانات المريضة والضعيفة، وهذا يُبقي الشعاب سليمة. فعندما تُعزف الموسيقى الدرامية في المرة القادمة، تذكّر: أنا أبحث عن وجبة سمك فقط.
+I've been around for over 400 million years, older than trees. My skeleton is cartilage, my skin is covered in tiny tooth-like scales, and I can sense the faint electric field of a hidden fish. I lose and replace thousands of teeth in my life. I'm not a mindless hunter, I'm a precise one, and the ocean needs me.|أعيش على الأرض منذ أكثر من 400 مليون سنة، أي قبل الأشجار. هيكلي من الغضروف، وجلدي مغطى بحراشف صغيرة تشبه الأسنان، وأستطيع استشعار المجال الكهربائي الضعيف لسمكة مختبئة. أفقد آلاف الأسنان وأستبدلها طوال حياتي. أنا لست صياداً أعمى، بل صياد دقيق، والمحيط يحتاج إليّ.
+fishing gear and finning|معدات الصيد وقطع الزعانف
+Hello! I'm a dolphin, and yes, I love to leap, whistle and play. But the postcards leave out the messy part: I'm a wild animal with a complicated social life.|مرحباً! أنا دلفين، ونعم، أحب القفز والصفير واللعب. لكن البطاقات البريدية تُخفي الجزء الفوضوي: أنا حيوان غير مروَّض وله حياة اجتماعية معقدة.
+Scientists have documented aggressive behavior in dolphins in some situations, and National Geographic points out that our friendly image is only half the story. I'm smart, curious and playful, but not a cartoon. Respect my space, and I'll happily respect yours.|وثّق العلماء سلوكاً عدوانياً لدى الدلافين في بعض المواقف، وتشير ناشونال جيوغرافيك إلى أن صورتنا الودودة نصف القصة فقط. أنا ذكي وفضولي ومرح، لكنني لست شخصية كرتونية. احترم مساحتي وسأحترم مساحتك بكل سرور.
+I talk with clicks and whistles, and each of us has a signature whistle that works like a name. I live in a pod, hunt as a team, and help sick friends reach the surface to breathe. I sleep with half my brain at a time so I never forget to breathe. Smart doesn't mean simple, and it doesn't mean saintly either.|أتحدث بالنقرات والصفير، ولكلٍّ منا صفير خاص يعمل مثل الاسم. أعيش في مجموعة، وأصطاد بروح الفريق، وأساعد أصدقائي المرضى على الوصول إلى السطح ليتنفسوا. أنام بنصف دماغي في كل مرة حتى لا أنسى التنفس. الذكاء لا يعني البساطة، ولا يعني القداسة أيضاً.
+getting tangled in fishing nets|الوقوع في شباك الصيد
+Greetings from eight arms! People call me weird. I call myself clever. Educational sources like the RSPCA note that I can recognize different humans and behave differently around them.|تحية من ثمانية أذرع! يقولون إنني غريب، وأقول إنني ذكي. تشير مصادر تعليمية مثل RSPCA إلى أنني أستطيع التعرّف على البشر المختلفين والتصرف بشكل مختلف معهم.
+My cousin the mimic octopus can imitate other animals to fool predators, and I can change my color and skin texture to vanish into the reef. I even have three hearts and blue blood. Weird? I prefer brilliantly unusual.|ابن عمي الأخطبوط المحاكي يقلّد حيوانات أخرى ليخدع المفترسات، وأنا أغيّر لوني وملمس جلدي لأختفي في الشعاب. ولدي أيضاً ثلاثة قلوب ودم أزرق. غريب؟ أفضّل كلمة «مدهش بشكل فريد».
+I have a small brain in each arm as well as the big one in my head, and my arms can taste what they touch. I squeeze through any gap bigger than my beak, and I escape tanks better than any fish. I only live a few years, so I spend them curious, solving puzzles and learning.|لدي دماغ صغير في كل ذراع بالإضافة إلى الدماغ الكبير في رأسي، وتستطيع أذرعي تذوّق ما تلمسه. أتسلل من أي فتحة أكبر من منقاري، وأهرب من الأحواض أفضل من أي سمكة. أعيش بضع سنوات فقط، فأقضيها فضولياً أحلّ الألغاز وأتعلم.
+plastic trash and drifting nets in my den|القمامة البلاستيكية والشباك الطافية في وكري
+Hi, I drift. No brain, no bones, no problem. Everyone hears jellyfish and thinks ouch, but there are many different species and we are very different from each other.|مرحباً، أنا أطفو. بلا دماغ ولا عظام، ولا مشكلة. يسمع الجميع كلمة قنديل البحر فيفكرون «آه!»، لكن هناك أنواعاً كثيرة مختلفة ونحن مختلفون جداً عن بعضنا.
+Some of us sting hard, many barely bother people at all, and some glow in the dark water like tiny lanterns. My family has been floating around for hundreds of millions of years. Please don't judge all of us by one bad beach day.|بعضنا يلسع بقوة، وكثير منا بالكاد يزعج الناس، وبعضنا يتوهج في الماء المظلم مثل فوانيس صغيرة. تعيش عائلتي طافيةً منذ مئات ملايين السنين. من فضلك لا تحكم علينا جميعاً بسبب يوم سيئ واحد على الشاطئ.
+I'm about ninety-five percent water, yet my family has survived many mass extinctions. I have no heart and no brain, just a net of nerves that senses light and touch. Some of my cousins can restart their life cycle when stressed. I move by gently pulsing my bell, and I'm food for turtles, fish and crabs.|أنا ماء بنسبة خمسة وتسعين بالمئة تقريباً، ومع ذلك نجت عائلتي من انقراضات جماعية كثيرة. ليس لدي قلب ولا دماغ، فقط شبكة أعصاب تحس بالضوء واللمس. بعض أقاربي يستطيعون إعادة دورة حياتهم عند الإجهاد. أتحرك بنبض جرسي برفق، وأنا غذاء للسلاحف والأسماك والسلطعونات.
+polluted, warming water|المياه الملوثة والمتزايدة الحرارة
+Hello, slow and steady here. I'm a sea turtle, and I'm much more than the cute sidekick from the movies. I can swim thousands of kilometres across oceans, and many of us return to the beach where we were born to nest.|مرحباً، هنا البطيء الثابت. أنا سلحفاة بحرية، وأنا أكثر بكثير من الرفيقة اللطيفة في الأفلام. أستطيع السباحة آلاف الكيلومترات عبر المحيطات، وكثير منا يعود إلى الشاطئ الذي وُلد فيه ليعشّش.
+I have a job too: green turtles graze seagrass so meadows stay healthy, and leatherbacks eat jellyfish. My biggest troubles are plastic and fishing gear. Please help me out!|ولي وظيفة أيضاً: السلاحف الخضراء ترعى أعشاب البحر لتبقى المروج سليمة، والسلاحف الجلدية تأكل قناديل البحر. أكبر مشاكلي هي البلاستيك ومعدات الصيد. ساعدوني من فضلكم!
+I hatched on a beach at night and ran to the sea alone. Only a tiny number of hatchlings survive to adulthood, and it takes decades for me to grow up. I use Earth's magnetic field to navigate, and I can hold my breath for hours when resting. Every beach I return to is a promise to the next generation.|فقستُ على شاطئ في الليل وركضت إلى البحر وحدي. القليل جداً من الصغار ينجو حتى البلوغ، وأحتاج إلى عقود لأكبر. أستخدم المجال المغناطيسي للأرض في الملاحة، وأستطيع حبس أنفاسي ساعات عند الراحة. كل شاطئ أعود إليه هو وعد للجيل القادم.
+plastic bags that look like jellyfish|أكياس البلاستيك التي تشبه قناديل البحر
+I'm a whale. Yes, I'm enormous, but big doesn't mean scary. Many of my relatives are gentle filter-feeders, and my blue whale cousin is the largest animal known to science.|أنا حوت. نعم، أنا ضخم، لكن الضخامة لا تعني الرعب. كثير من أقاربي من آكلات الترشيح الوديعة، وابن عمي الحوت الأزرق هو أكبر حيوان عرفه العلم.
+About my spout: NOAA explains it isn't water coming from my lungs. My blowhole works like your nose, and the spray comes from my warm breath and the water around the blowhole. I'm a mammal, so I breathe air, just like you.|عن نافورتي: توضح NOAA أنها ليست ماءً يخرج من رئتيّ. فتحة التنفس عندي تعمل مثل أنفك، والرذاذ يأتي من أنفاسي الدافئة والماء حول الفتحة. أنا ثديي، فأتنفس الهواء مثلك تماماً.
+I sing, I breathe through a blowhole, and my ancestors were land animals that walked on four legs millions of years ago. My family recycles the ocean: our waste feeds tiny plankton, and when we die our bodies feed the deep sea for decades. I'm not a monster, I'm a gardener of the sea.|أغنّي، وأتنفس عبر فتحة في رأسي، وكان أسلافي حيوانات برية تمشي على أربع قبل ملايين السنين. عائلتي تعيد تدوير المحيط: فضلاتنا تغذّي العوالق الصغيرة، وحين نموت تغذّي أجسادنا أعماق البحر عقوداً. أنا لست وحشاً، أنا بستاني البحر.
+ropes, fishing gear and fast ships|الحبال ومعدات الصيد والسفن السريعة
+Hi! I'm a seal. I know, big eyes, whiskers, the whole cute package. But cute is a face, not a personality. People often turn animals into human-like characters, and I am not a plush toy.|مرحباً! أنا فقمة. أعرف، عيون كبيرة وشوارب، الحزمة اللطيفة كاملة. لكن اللطافة وجه وليست شخصية. كثيراً ما يحوّل الناس الحيوانات إلى شخصيات شبيهة بالبشر، وأنا لست دمية قطيفة.
+I'm a wild predator who dives deep after fish and squid. I'm happiest resting on rocks between hunts. Please admire me from a distance and let me nap in peace.|أنا مفترسة برية أغوص عميقاً بحثاً عن السمك والحبّار. أكون أسعد ما أكون وأنا أستريح على الصخور بين رحلات الصيد. من فضلك أعجب بي من بعيد ودعني أنم بسلام.
+I can nap underwater and hold my breath for long stretches. My thick whiskers feel the tiny waves left behind by a passing fish, even in the dark. A seal pup is born fluffy, but it learns to swim and hunt very fast. I look soft, but I'm built for cold seas, speed and survival.|أستطيع القيلولة تحت الماء وحبس أنفاسي فترات طويلة. تحسّ شواربي السميكة بالموجات الصغيرة التي تتركها سمكة عابرة، حتى في الظلام. يولد جرو الفقمة رقيقاً كالزغب، لكنه يتعلم السباحة والصيد بسرعة كبيرة. أبدو ناعمة، لكنني مصمّمة للبحار الباردة والسرعة والبقاء.
+fishing nets and plastic rings|شباك الصيد والحلقات البلاستيكية
+Yes, I walk sideways. So what? My leg joints bend sideways, so scuttling is simply efficient. It isn't a funny dance, it's engineering.|نعم، أمشي جانبياً. وماذا في ذلك؟ مفاصل ساقيّ تنثني إلى الجانب، فالجري الجانبي ببساطة أكثر كفاءة. إنه ليس رقصة مضحكة، بل هندسة.
+The truth is I'm more varied than the stereotype, because some crab species move forward or in other directions. I also grow by shedding my hard shell, and I tidy the seafloor by eating leftovers. Grumpy? No, just busy.|الحقيقة أنني أكثر تنوعاً من الصورة النمطية، فبعض أنواع السلطعون تتحرك إلى الأمام أو في اتجاهات أخرى. وأنا أنمو أيضاً بخلع قشرتي الصلبة، وأنظّف قاع البحر بأكل البقايا. متجهم؟ لا، مشغول فقط.
+I carry my skeleton on the outside, so to grow I have to shed my shell and hide while the new one hardens. I sense chemicals with my legs, see with eyes on stalks, and wave my claws to talk. I'm small, but beaches and mudflats depend on my cleaning and digging.|أحمل هيكلي العظمي في الخارج، فلكي أنمو عليّ أن أخلع قشرتي وأختبئ حتى تتصلب الجديدة. أستشعر المواد الكيميائية بأرجلي، وأرى بعيون على سيقان، وألوّح بمخالبي لأتحدث. أنا صغير، لكن الشواطئ والسهول الطينية تعتمد على تنظيفي وحفري.
+plastic and pollution on my beach|البلاستيك والتلوث على شاطئي
+Surprise: I'm not a fish. I have no gills, no fins and no backbone. Scientists prefer the name sea star, and honestly, so do I.|مفاجأة: أنا لست سمكة. ليس لدي خياشيم ولا زعانف ولا عمود فقري. يفضّل العلماء اسم «نجمة البحر»، وبصراحة أنا أيضاً.
+I'm an echinoderm, a cousin of sea urchins and sand dollars. I move on hundreds of tiny tube feet, and if I lose an arm I can often grow a new one. Fish can't do that.|أنا من شوكيات الجلد، ابن عم قنافذ البحر ودولارات الرمل. أتحرك على مئات الأقدام الأنبوبية الصغيرة، وإذا فقدت ذراعاً فغالباً أستطيع إنماء ذراع جديدة. السمك لا يستطيع ذلك.
+I have no brain and no blood. Seawater moves through my body to carry oxygen and nutrients, and tiny eyespots at the tip of each arm sense light and dark. I can push my stomach out of my body to digest prey. Slow doesn't mean helpless: a sea star can shape a whole tide pool.|ليس لدي دماغ ولا دم. يتحرك ماء البحر داخل جسمي ليحمل الأكسجين والمغذيات، وتحسّ بقع عين صغيرة في طرف كل ذراع بالضوء والظلام. أستطيع دفع معدتي خارج جسمي لأهضم الفريسة. البطء لا يعني العجز: نجمة البحر قد تصنع شكل بركة مد كاملة.
+warming water and wasting disease|ارتفاع حرارة الماء ومرض الهزال
+Am I the ocean's villain? Humans named me killer whale, which sounds very dramatic. In truth, I'm the largest member of the dolphin family.|هل أنا شرير المحيط؟ سمّاني البشر الحوت القاتل، وهذا يبدو درامياً جداً. في الحقيقة أنا أكبر أفراد عائلة الدلافين.
+I live with my family in tight pods, we talk with our own calls, and we hunt as a team. Films turned me into a movie monster, but real orcas are family animals with a bad nickname.|أعيش مع عائلتي في مجموعات متماسكة، ونتحدث بنداءاتنا الخاصة، ونصطاد كفريق. حوّلتني الأفلام إلى وحش سينمائي، لكن الأوركا الحقيقية حيوانات عائلية لها لقب سيئ.
+I'm at the top of the food chain, and my family teaches me everything. Each pod has its own dialect and hunting traditions, passed from mothers to calves. Grandmothers lead the pod long after they stop having babies, which very few animals do. I live with my family for life, the opposite of a lonely villain.|أنا في قمة السلسلة الغذائية، وعائلتي تعلّمني كل شيء. لكل مجموعة لهجتها وتقاليدها في الصيد، تنتقل من الأمهات إلى الصغار. تقود الجدّات المجموعة بعد توقفهن عن الإنجاب بزمن طويل، وهو أمر نادر جداً بين الحيوانات. أعيش مع عائلتي مدى الحياة، عكس الشرير الوحيد.
+pollution, loud ships and less food|التلوث والسفن الصاخبة ونقص الغذاء
+I have no stinger at all. I glide through the water filtering plankton, and I have one of the biggest brains among fish.|ليس لدي إبرة لاسعة على الإطلاق. أنساب في الماء وأرشّح العوالق، ولدي واحد من أكبر أدمغة الأسماك.
+I can be wider than a car is long, and I have no stinger, only a gentle push through the water. I funnel plankton into my mouth with two flexible fins on my head. Some of us visit cleaning stations on the reef to be tidied by small fish. Scientists think I'm curious and clever.|قد أكون أعرض من طول سيارة، وليس لدي إبرة لاسعة، فقط دفعة لطيفة عبر الماء. أُدخل العوالق إلى فمي بزعنفتين مرنتين على رأسي. يزور بعضنا محطات التنظيف في الشعاب لتنظّفه أسماك صغيرة. يظن العلماء أنني فضولي وذكي.
+fishing nets and swallowing plastic|شباك الصيد وابتلاع البلاستيك
+I only use my tail spine to defend myself when I'm stepped on. Shuffle your feet in shallow water and we'll never have a problem.|أستخدم شوكة ذيلي فقط للدفاع عن نفسي حين يُداس عليّ. جرّوا أقدامكم في المياه الضحلة ولن تكون هناك أي مشكلة.
+I bury myself in sand so only my eyes show, and I breathe through holes on my back so I don't inhale sand. I look flat, but I'm a close relative of sharks, with a skeleton of cartilage. I glide above the seabed hunting shellfish and worms. I only want to hunt in peace.|أدفن نفسي في الرمل فلا تظهر إلا عيناي، وأتنفس عبر ثقوب في ظهري حتى لا أستنشق الرمل. أبدو مسطحاً، لكنني قريب قرابة وثيقة من القروش، وهيكلي من غضروف. أنساب فوق قاع البحر أصطاد المحار والديدان. كل ما أريده هو الصيد بسلام.
+fishing nets and shrinking habitats|شباك الصيد وتقلّص موائلي
+A coating of mucus protects me from my anemone's stings. I live safely in its tentacles and help keep my home clean.|طبقة من المخاط تحميني من لسعات شقائق النعمان. أعيش بأمان بين مجساتها وأساعد في إبقاء بيتي نظيفاً.
+I'm born male, and if the female of my group disappears, the biggest male becomes female. I live in the same anemone for life, defending it from fish that want to nibble it. I fan its tentacles with fresh water and feed it with my waste. Home is everything to me, which is why a bleaching reef scares me.|أولد ذكراً، وإذا اختفت أنثى مجموعتي يصبح أكبر الذكور أنثى. أعيش في شقيقة النعمان نفسها طوال حياتي، وأدافع عنها من الأسماك التي تريد قضمها. أحرّك مجساتها بالماء العذب وأغذّيها بفضلاتي. البيت هو كل شيء بالنسبة إليّ، ولهذا يخيفني ابيضاض الشعاب.
+hot water that bleaches my anemone home|الماء الساخن الذي يبيّض بيتي من شقائق النعمان
+I'm a fish, and it's the dad who carries the babies in a pouch until they're born. My curled tail grips seagrass like a hand.|أنا سمكة، والأب هو من يحمل الصغار في كيس حتى يولدوا. يمسك ذيلي الملتف أعشاب البحر كأنه يد.
+I have no stomach, so I eat almost all day, sucking up tiny shrimp with my snout. My eyes move independently. Each morning my partner and I greet each other with a dance. Dad carries the babies, and once they are born they are on their own. I'm not a toy, I'm a slow, careful survivor.|ليس لدي معدة، فآكل طوال اليوم تقريباً، أمتصّ الروبيان الصغير بخطمي. تتحرك عيناي بشكل مستقل. كل صباح نحيّي أنا وشريكي بعضنا برقصة. الأب يحمل الصغار، وبعد ولادتهم يعتمدون على أنفسهم. أنا لست لعبة، أنا ناجٍ بطيء وحذر.
+bottom trawling and the loss of my seagrass home|الصيد بالجرف القاعي وفقدان بيتي من أعشاب البحر
+I'm actually shy. I spend most of my day tucked into a crevice, and I bite mainly when I feel threatened.|أنا في الحقيقة خجول. أقضي معظم يومي مختبئاً في شق، ولا أعضّ إلا حين أشعر بالتهديد.
+I have a second set of jaws inside my throat that shoot forward to pull prey in. I can't see well, but my sense of smell is excellent. I open and close my mouth to pump water over my gills, which looks scary but is just breathing. Cleaner shrimp tidy my skin, so we get along fine.|لدي مجموعة فكوك ثانية داخل حلقي تندفع للأمام لسحب الفريسة. لا أرى جيداً، لكن حاسة شمي ممتازة. أفتح فمي وأغلقه لضخ الماء على خياشيمي، وهذا يبدو مخيفاً لكنه مجرد تنفس. تنظّف الروبيان جلدي، فنحن على وفاق.
+lost traps and trash in my rocky home|الأفخاخ الضائعة والقمامة في بيتي الصخري
+I'm fast and curious, so I sometimes follow divers. Attacks on people are very rare.|أنا سريع وفضولي، فأتبع الغواصين أحياناً. الهجمات على البشر نادرة جداً.
+I can sprint in short bursts faster than most fish and strike in a flash. Young barracuda hide in mangroves and seagrass, then move out to the open reef as they grow. Silver and streamlined, I cruise in a school when I'm young and alone when I'm older. I'm a predator, but I'm not out to get you.|أستطيع الانطلاق بسرعة في اندفاعات قصيرة أسرع من معظم الأسماك، وأضرب في لمح البصر. تختبئ صغار الباراكودا في أشجار المانغروف وأعشاب البحر، ثم تنتقل إلى الشعاب المفتوحة حين تكبر. فضّية وانسيابية، أسبح في سرب وأنا صغيرة ووحيدة حين أكبر. أنا مفترسة، لكنني لا أطاردك.
+fishing nets and polluted reefs|شباك الصيد والشعاب الملوثة
+I gulp water to puff up and scare predators. Many of us also carry a powerful toxin, so I'm no toy.|أبتلع الماء لأنتفخ وأخيف المفترسات. كثير منا يحمل أيضاً سمّاً قوياً، فأنا لست لعبة.
+I'm a slow swimmer, so I need a trick. When threatened, I stretch my elastic stomach and fill it with water until I'm a spiny ball. My fused teeth form a beak that never stops growing, so I crunch hard shells to wear it down. I'm clumsy, but clever. I'd rather not puff up at all.|أنا سباح بطيء، فأحتاج إلى حيلة. عند التهديد أمدّ معدتي المرنة وأملؤها بالماء حتى أصير كرة شائكة. أسناني المندمجة تشكّل منقاراً لا يتوقف عن النمو، فأسحق القشور الصلبة لأبليه. أنا أخرق لكنني ذكي. وأفضّل ألا أنتفخ أصلاً.
+plastic trash I might mistake for food|القمامة البلاستيكية التي قد أحسبها طعاماً
+My spines are venomous. Where I've been introduced, like the Atlantic, I'm an invader that harms reef fish.|أشواكي سامة. حيث جُلبت، كما في الأطلسي، أصبحت غازياً يؤذي أسماك الشعاب.
+I spread my fins like a fan to herd small fish into a corner. I'm native to the Indo-Pacific. In the Atlantic I'm an invader brought in by people, a problem I never chose. In my home waters, other animals keep my numbers balanced. I'm beautiful and venomous, but I'm not the villain of this story.|أفرد زعانفي كالمروحة لأدفع الأسماك الصغيرة إلى زاوية. موطني الأصلي المحيطان الهندي والهادئ. وفي الأطلسي أنا غازٍ جلبه البشر، مشكلة لم أختَرها. في مياهي الأصلية تحافظ حيوانات أخرى على توازن أعدادي. أنا جميل وسام، لكنني لست شرير هذه القصة.
+pollution and plastic on my reef|التلوث والبلاستيك على شعابي
+I fit in your palm, but I'm venomous. My bright blue rings are a warning, so please admire me from far away.|أتسع في راحة يدك، لكنني سام. حلقاتي الزرقاء الزاهية تحذير، فأعجب بي من بعيد من فضلك.
+I'm small, but my venom is made with help from bacteria living in my glands. I spend most of my day hiding in crevices, and my blue rings flash only when I'm threatened. I carry my eggs under my arms for months and don't eat while I guard them. I'm a shy mother, not a monster in the tide pool.|أنا صغير، لكن سمّي يُصنع بمساعدة بكتيريا تعيش في غدّتي. أقضي معظم يومي مختبئاً في الشقوق، وتومض حلقاتي الزرقاء فقط حين أُهدَّد. أحمل بيوضي تحت أذرعي شهوراً ولا آكل وأنا أحرسها. أنا أمّ خجولة، لا وحش في بركة المد.
+trash in my tide pool home|القمامة في بيتي ببركة المد
+I use rocks as tools to crack open shellfish, and my thick fur, not blubber, keeps me warm.|أستخدم الصخور أدواتٍ لكسر المحار، وفرائي السميك، لا الشحم، هو ما يدفئني.
+I have the thickest fur of any animal, up to a million hairs in a square inch. I groom it constantly to trap air and stay warm. I eat about a quarter of my body weight each day, and I keep a favorite rock in a pocket under my arm. By hunting urchins, I protect kelp forests that shelter thousands of species.|لدي أكثف فراء بين الحيوانات، حتى مليون شعرة في البوصة المربعة. أمشّطه باستمرار لأحبس الهواء وأبقى دافئاً. آكل حوالي ربع وزن جسمي كل يوم، وأحتفظ بصخرتي المفضلة في جيب تحت ذراعي. بصيد قنافذ البحر أحمي غابات الأعشاب البحرية التي تأوي آلاف الأنواع.
+oil spills that ruin my fur|التسربات النفطية التي تفسد فرائي
+My tusks help me haul out onto ice, and my whiskers find clams on the dark seafloor.|تساعدني أنيابي على الصعود إلى الجليد، وتجد شواربي المحار في قاع البحر المظلم.
+I weigh over a tonne, yet I can dive deep and hold my breath for a long time. I'm very social and sleep in huge piles on the ice. My tusks keep growing all my life and help me climb onto the ice. I use my whiskers to find clams in murky mud. I need floating ice as a place to rest.|أزن أكثر من طن، ومع ذلك أستطيع الغوص عميقاً وحبس أنفاسي وقتاً طويلاً. أنا اجتماعي جداً وأنام في أكوام ضخمة على الجليد. تستمر أنيابي في النمو طوال حياتي وتساعدني على تسلق الجليد. أستخدم شواربي لإيجاد المحار في الطين العكر. أحتاج إلى الجليد الطافي مكاناً للراحة.
+melting sea ice|ذوبان الجليد البحري
+Sailors once mistook me for a mermaid! I'm a gentle plant-eater, and my closest relatives include elephants.|ظنّني البحّارة يوماً حورية بحر! أنا آكل أعشاب وديع، ومن أقرب أقاربي الفيلة.
+I'm a slow, gentle plant-eater who spends hours each day grazing seagrass. I can eat about ten percent of my body weight daily. I come up to breathe every few minutes, but I can rest underwater for much longer. My distant relatives include elephants, and I live in warm, shallow water where boats travel fast.|أنا آكل نباتات بطيء ووديع أقضي ساعات كل يوم في رعي أعشاب البحر. أستطيع أكل نحو عشرة بالمئة من وزن جسمي يومياً. أصعد للتنفس كل بضع دقائق، لكنني أستطيع الراحة تحت الماء مدة أطول بكثير. من أقاربي البعيدين الفيلة، وأعيش في مياه دافئة ضحلة تسير فيها القوارب بسرعة.
+speeding boats and cold, polluted water|القوارب السريعة والماء البارد الملوث
+My tusk is a long spiral tooth packed with nerve endings, and it helps me sense my icy Arctic home.|نابي سنّ حلزونية طويلة مليئة بالنهايات العصبية، وهي تساعدني على استشعار موطني القطبي الجليدي.
+I live in the Arctic, mostly under thick sea ice. My tusk is a tooth that can be around two meters long, and scientists think it's packed with sensors. I dive very deep for fish and squid. Every winter I depend on a few small breathing holes in the ice.|أعيش في القطب الشمالي، معظم الوقت تحت جليد البحر السميك. نابي سنّ قد يبلغ طولها نحو مترين، ويظن العلماء أنها مليئة بالمستشعرات. أغوص عميقاً جداً بحثاً عن السمك والحبّار. وفي كل شتاء أعتمد على بضع فتحات تنفس صغيرة في الجليد.
+a shrinking, noisy Arctic|قطب شمالي يتقلص ويزداد ضجيجاً
+I'm a whale, and I'm so chatty that people call me the canary of the sea.|أنا حوت، وأنا ثرثار جداً حتى إن الناس يسمّونني كناري البحر.
+I can swim backward, which most whales can't, and I can turn my head because my neck bones aren't fused. My forehead, called the melon, changes shape as I make sounds. I live in cold Arctic waters and sometimes swim into rivers. I'm born gray and slowly turn white as I grow up.|أستطيع السباحة إلى الوراء، وهو ما لا تستطيعه معظم الحيتان، وأستطيع إدارة رأسي لأن عظام رقبتي غير ملتحمة. جبهتي، المسماة الميلون، تغيّر شكلها حين أُصدر الأصوات. أعيش في المياه القطبية الباردة وأسبح أحياناً في الأنهار. أولد رمادياً ثم أبيضّ تدريجياً مع نموي.
+noise and pollution|الضوضاء والتلوث
+Male humpbacks sing long, complex songs that change over time, and other whales learn the new tunes.|تغنّي ذكور الحوت الأحدب أغاني طويلة معقدة تتغير مع الزمن، وتتعلم الحيتان الأخرى الألحان الجديدة.
+I travel thousands of kilometers each year between cold feeding grounds and the warm waters where I have my calves. I blow nets of bubbles to trap fish, and my long flippers help me steer. The pattern under my tail is unique, and scientists use it like a fingerprint to know me. Other whales learn my song.|أسافر آلاف الكيلومترات كل عام بين مناطق التغذية الباردة والمياه الدافئة حيث ألد صغاري. أنفخ شباكاً من الفقاعات لأحاصر السمك، وتساعدني زعانفي الطويلة على التوجيه. النقش تحت ذيلي فريد، ويستخدمه العلماء مثل بصمة ليتعرّفوا عليّ. وتتعلم الحيتان الأخرى أغنيتي.
+fishing ropes and nets|حبال الصيد والشباك
+I dive deep to hunt squid, and I have the biggest brain of any animal on Earth.|أغوص عميقاً لأصطاد الحبّار، ولدي أكبر دماغ بين جميع الحيوانات على الأرض.
+I dive deeper than almost any other mammal, more than a kilometer down, and I can stay under for over an hour. I hunt squid in the dark using clicks that are among the loudest sounds made by any animal. I live in family groups where females help raise one another's calves.|أغوص أعمق من أي ثدييّ آخر تقريباً، أكثر من كيلومتر، وأستطيع البقاء تحت الماء أكثر من ساعة. أصطاد الحبّار في الظلام بنقرات هي من أعلى الأصوات التي يُصدرها أي حيوان. أعيش في مجموعات عائلية تساعد فيها الإناث بعضها في تربية صغارها.
+plastic and fishing nets that I swallow|البلاستيك وشباك الصيد التي أبتلعها
+I'm a fish, the biggest in the sea, and I'm a gentle filter-feeder that eats tiny plankton.|أنا سمكة، أكبر سمكة في البحر، وأنا آكل ترشيح وديع يتغذى على العوالق الصغيرة.
+I'm the biggest fish in the sea, and I eat some of the smallest things: plankton and tiny fish. My spots are unique, like a fingerprint. I can live for decades and travel across entire oceans. I have thousands of tiny teeth, but I never use them to bite. I filter, I don't chase.|أنا أكبر سمكة في البحر، وآكل بعضاً من أصغر الأشياء: العوالق والأسماك الصغيرة. بقعي فريدة مثل البصمة. أستطيع العيش عقوداً والسفر عبر محيطات كاملة. لدي آلاف الأسنان الصغيرة، لكنني لا أعضّ بها أبداً. أنا أرشّح ولا أطارد.
+ships and the plastic I filter|السفن والبلاستيك الذي أرشّحه
+My wide head spreads my senses apart, which helps me detect prey and gives me a broad view.|رأسي العريض يباعد حواسي، فيساعدني على اكتشاف الفريسة ويمنحني رؤية واسعة.
+My wide head holds extra electric sensors that detect prey hidden in sand. My eyes sit at the ends, giving me almost a full-circle view. Some of us gather in huge schools during the day and hunt alone at night. Many of my young are born in shallow, safe nurseries near the coast.|يحمل رأسي العريض مستشعرات كهربائية إضافية تكتشف الفريسة المختبئة في الرمل. تقع عيناي في الطرفين، فتمنحاني رؤية تكاد تكون دائرية كاملة. يتجمع بعضنا في أسراب ضخمة نهاراً ويصطاد منفرداً ليلاً. يولد كثير من صغاري في حضانات ضحلة آمنة قرب الساحل.
+nets and longlines|الشباك وخيوط الصيد الطويلة
+I rest calmly on the seafloor and pump water over my gills. Sleepy, not scary.|أستريح بهدوء على قاع البحر وأضخّ الماء على خياشيمي. ناعس، لا مخيف.
+I use strong suction to pull prey out of crevices, and I rest in groups during the day, sometimes piled on each other. Small whisker-like barbels near my mouth help me feel for food. I'm slow, calm and mostly active at night. Divers often meet me asleep and leave me in peace.|أستخدم شفطاً قوياً لسحب الفريسة من الشقوق، وأستريح في مجموعات نهاراً، وأحياناً فوق بعضنا. تساعدني شُعيرات صغيرة تشبه الشوارب قرب فمي على تحسّس الطعام. أنا بطيء وهادئ ونشط في الغالب ليلاً. كثيراً ما يجدني الغواصون نائماً فيتركونني بسلام.
+fishing gear and trash on the reef floor|معدات الصيد والقمامة على أرضية الشعاب
+I graze on algae, and my spines protect me. I also have tiny tube feet hiding between them.|أرعى الطحالب، وتحميني أشواكي. ولدي أيضاً أقدام أنبوبية صغيرة مخبأة بينها.
+I have no eyes, but my whole body senses light. I move on hundreds of tube feet and scrape algae with a five-part mouth called Aristotle's lantern. My spines protect me, and some of us live for decades. I'm a gardener of the reef, keeping algae in check so coral can grow.|ليس لدي عيون، لكن جسمي كله يحسّ بالضوء. أتحرك على مئات الأقدام الأنبوبية وأكشط الطحالب بفم من خمسة أجزاء يسمى فانوس أرسطو. تحميني أشواكي، ويعيش بعضنا عقوداً. أنا بستاني الشعاب، أبقي الطحالب تحت السيطرة لينمو المرجان.
+pollution and warming water|التلوث وارتفاع حرارة الماء
+I'm an animal! I clean the seafloor by eating tiny scraps and recycling them back into the sand.|أنا حيوان! أنظّف قاع البحر بأكل الفتات الصغير وإعادته إلى الرمل.
+I breathe through my backside, and I can toss out some of my insides to distract a predator and regrow them later. I swallow sand to eat the tiny life in it, and I leave cleaner sand behind. I move slowly on tube feet and hide in plain sight. I'm a vacuum cleaner of the seafloor.|أتنفس من نهايتي الخلفية، وأستطيع قذف بعض أحشائي لأشتّت مفترساً ثم أعيد إنماءها لاحقاً. أبتلع الرمل لآكل الحياة الصغيرة فيه، وأترك رملاً أنظف خلفي. أتحرك ببطء على أقدام أنبوبية وأختبئ على مرأى من الجميع. أنا مكنسة كهربائية لقاع البحر.
+overfishing and dirty sand|الصيد الجائر والرمل المتسخ
+I'm an animal related to jellyfish and coral, and my tentacles carry tiny stinging cells.|أنا حيوان قريب من قناديل البحر والمرجان، وتحمل مجساتي خلايا لاسعة صغيرة.
+I'm an animal that looks like a flower. I usually sit on rocks, but I can slowly glide on my foot if I'm unhappy. My stinging tentacles paralyze small prey, and some algae live inside me and share food. I can live for decades. Some fish live safely in my arms, so I'm a home as well as a hunter.|أنا حيوان يشبه الزهرة. أجلس عادة على الصخور، لكنني أستطيع الانزلاق ببطء على قدمي إذا لم أكن سعيداً. تشلّ مجساتي اللاسعة الفريسة الصغيرة، وتعيش بعض الطحالب داخلي وتشاركني الطعام. أعيش عقوداً. تعيش بعض الأسماك بأمان بين أذرعي، فأنا بيت وصائد معاً.
+hot water that bleaches me|الماء الساخن الذي يبيّضني
+I'm made of thousands of tiny animals called polyps, and together we build whole reefs.|أنا مكوَّن من آلاف الحيوانات الصغيرة تسمى البوليبات، ومعاً نبني شعاباً كاملة.
+I'm built by tiny polyps that make a limestone skeleton and live together in colonies. Reefs cover a tiny fraction of the ocean floor but shelter about a quarter of marine species. Algae living in my tissue give me color and food, which is why I turn white when I'm stressed. I take years to grow and moments to die.|تبنيني بوليبات صغيرة تصنع هيكلاً كلسياً وتعيش معاً في مستعمرات. تغطي الشعاب جزءاً ضئيلاً من قاع المحيط لكنها تأوي نحو ربع الأنواع البحرية. تمنحني الطحالب التي تعيش في أنسجتي اللون والغذاء، ولهذا أبيضّ حين أتعرض للإجهاد. أحتاج سنوات لأنمو وأموت في لحظات.
+hot water, pollution and plastic|الماء الساخن والتلوث والبلاستيك
+I'm one of the simplest animals. I have no brain, and I filter water to catch food.|أنا من أبسط الحيوانات. ليس لدي دماغ، وأرشّح الماء لأحصل على الطعام.
+I have no brain, no heart and no stomach, yet my family has lived on Earth for more than half a billion years. I pump huge amounts of water through my body every day and filter out bacteria. Some of my kind live for hundreds of years. I'm a living filter that keeps the water clean.|ليس لدي دماغ ولا قلب ولا معدة، ومع ذلك تعيش عائلتي على الأرض منذ أكثر من نصف مليار سنة. أضخّ كميات هائلة من الماء عبر جسمي كل يوم وأرشّح البكتيريا. يعيش بعض أفراد نوعي مئات السنين. أنا مرشّح حي يُبقي الماء نظيفاً.
+tiny plastic that clogs my pores|البلاستيك الدقيق الذي يسدّ مساماتي
+I'm very much alive! I'm a relative of octopuses, and my shell's chambers help me float.|أنا حيّ تماماً! أنا قريب من الأخطبوط، وتساعدني حجرات صدفتي على الطفو.
+I've lived in nearly the same shape for hundreds of millions of years. I live in a spiral shell divided into chambers, and I adjust the gas in them to rise or sink. I rise toward shallower water at night to feed and return to the deep by day. My shell is beautiful, and that is my curse.|عشت بالشكل نفسه تقريباً مئات ملايين السنين. أسكن في صدفة حلزونية مقسّمة إلى حجرات، وأضبط الغاز فيها لأرتفع أو أغوص. أصعد إلى مياه أضحل ليلاً لأتغذى وأعود إلى العمق نهاراً. صدفتي جميلة، وهذه لعنتي.
+being hunted for my shell|الصيد من أجل صدفتي
+I'm real, but I'm rarely seen. My eyes are huge for seeing in the dark deep, and the kraken legend is just that.|أنا حقيقي، لكن نادراً ما يراني أحد. عيناي ضخمتان لأرى في العمق المظلم، وأسطورة الكراكن مجرد أسطورة.
+I have the largest eyes in the animal kingdom, about the size of a dinner plate, to spot sperm whales in the dark. Nobody filmed me alive in the deep until 2012. I'm not a kraken, I'm a shy deep-sea animal with two long feeding tentacles. I live far from your world, but your trash drifts into mine.|لدي أكبر عينين في المملكة الحيوانية، بحجم طبق عشاء، لأرصد الحيتان العنبرية في الظلام. لم يصوّرني أحد حياً في الأعماق حتى عام 2012. أنا لست الكراكن، أنا حيوان خجول من أعماق البحر بمجسّين طويلين للتغذية. أعيش بعيداً عن عالمك، لكن قمامتك تنجرف إلى عالمي.
+trash and noise drifting into the deep|القمامة والضوضاء المنجرفة إلى الأعماق
+I'm my own kind of animal with an inner cuttlebone, and I can ripple my skin through many colors.|أنا نوع حيوان قائم بذاته، لدي عظمة سبيدج داخلية، وأستطيع تموّيج جلدي بألوان كثيرة.
+I have three hearts and blue-green blood, and my eyes have W-shaped pupils. I change color in a heartbeat even though I'm colorblind, and I flash patterns to talk with other cuttlefish. In tests, I've shown I can wait for a better treat, a sign of self-control. I'm a master of disguise because I have to be.|لدي ثلاثة قلوب ودم أزرق مخضر، وحدقتا عينيّ على شكل حرف W. أغيّر لوني في لمح البصر مع أنني لا أميّز الألوان، وأُومض بأنماط لأتحدث مع السبيدج الآخر. أظهرت الاختبارات أنني أستطيع انتظار مكافأة أفضل، وهذا دليل على ضبط النفس. أنا سيد التمويه لأنني مضطر لذلك.
+pollution and nets|التلوث والشباك
+I borrow empty shells and move into a bigger one when I grow.|أستعير أصدافاً فارغة وأنتقل إلى أكبر منها حين أنمو.
+I have a soft body, so I borrow a shell for protection. When I find a larger shell, I wait in line with other crabs, and we trade up one by one. This swap chain is called a vacancy chain. I'm a recycler: someone else's old home is the perfect new home for me.|جسمي رخو، فأستعير صدفة للحماية. وحين أجد صدفة أكبر، أنتظر في الطابور مع سلطعونات أخرى ونتبادل المساكن واحداً بعد آخر. تسمى سلسلة التبادل هذه سلسلة الشواغر. أنا معيد تدوير: بيت قديم لغيري هو البيت الجديد المثالي لي.
+plastic caps and trash instead of shells|الأغطية البلاستيكية والقمامة بدل الأصداف
+I'm usually a dark color. I turn red only when I'm cooked.|لوني عادة داكن. لا أصبح أحمر إلا حين أُطهى.
+I taste with my legs, and my two claws are different: one crusher and one cutter. I live many years, and I keep growing as I shed my shell. My blood is blue because it contains copper. I hunt at night and hide in rock crevices by day. I'm not red until you cook me.|أتذوق بأرجلي، ومخلباي مختلفان: أحدهما للسحق والآخر للقطع. أعيش سنوات كثيرة وأواصل النمو وأنا أخلع قشرتي. دمي أزرق لأنه يحتوي على النحاس. أصطاد ليلاً وأختبئ في شقوق الصخور نهاراً. لا أكون أحمر حتى تطهوني.
+lost traps and warming water|الأفخاخ الضائعة وارتفاع حرارة الماء
+I punch so fast that I can crack shells, and my eyes are among the most complex in the ocean.|ألكم بسرعة تكسر القشور، وعيناي من أعقد العيون في المحيط.
+My club strikes about as fast as a bullet from a small gun, and the water boils around it from the impact. My eyes have up to sixteen types of color receptors, compared to your three. I live in a burrow that I defend fiercely. People call me violent. I'm just very well equipped.|تضرب هراوتي بسرعة تشبه رصاصة من مسدس صغير، ويغلي الماء حولها من شدة الصدمة. في عينيّ حتى ستة عشر نوعاً من مستقبلات الألوان، مقابل ثلاثة عندك. أعيش في جحر أدافع عنه بشراسة. يسمّونني عنيفاً. أنا فقط مجهّز جيداً.
+dying reefs and pollution|الشعاب المحتضرة والتلوث
+I'm a small crustacean, but huge swarms of us feed whales, penguins and fish. The ocean runs on us.|أنا قشري صغير، لكن أسراباً هائلة منا تغذّي الحيتان والبطاريق والأسماك. المحيط يعمل بنا.
+I'm only a few centimeters long, but my swarms can stretch for kilometers. I travel up and down each day, eating algae at night and hiding in the deep by day. I'm the main meal for whales, penguins and seals, and I help move carbon to the deep sea. If I vanish, the whole food chain falls.|طولي بضعة سنتيمترات فقط، لكن أسرابي تمتد كيلومترات. أصعد وأنزل كل يوم، آكل الطحالب ليلاً وأختبئ في العمق نهاراً. أنا الوجبة الرئيسية للحيتان والبطاريق والفقمات، وأساعد في نقل الكربون إلى أعماق البحر. إذا اختفيت تنهار السلسلة الغذائية كلها.
+warming water and the plastic I swallow|ارتفاع حرارة الماء والبلاستيك الذي أبتلعه
+I'm actually a crustacean, a relative of crabs, glued headfirst to rocks and boats.|أنا في الحقيقة قشري، قريب السلطعون، ألصق رأسي أولاً بالصخور والقوارب.
+As a larva I swim free, but as an adult I glue myself headfirst to a rock, a whale or a boat for life. My glue is one of the strongest natural glues, and scientists study it. I sweep plankton into my mouth with feathery legs. I stick to my choices, literally.|أسبح حراً وأنا يرقة، لكنني حين أكبر ألصق نفسي برأسي على صخرة أو حوت أو قارب مدى الحياة. غرائي من أقوى الأغرية الطبيعية، ويدرسه العلماء. أجرف العوالق إلى فمي بأرجل ريشية. أتمسك بخياراتي، حرفياً.
+polluted water|الماء الملوث
+I'm closer to spiders than crabs, and my family is older than the dinosaurs.|أنا أقرب إلى العناكب منّي إلى السلطعونات، وعائلتي أقدم من الديناصورات.
+My blood is blue and contains cells that clump around bacteria, which is used to test medicines for safety. I'm older than the dinosaurs and have barely changed. I walk the seabed on ten legs and have many eyes. In spring I come ashore in huge groups to lay eggs, and migrating birds depend on them.|دمي أزرق ويحتوي على خلايا تتكتل حول البكتيريا، ويُستخدم هذا لاختبار سلامة الأدوية. أنا أقدم من الديناصورات ولم أتغير إلا قليلاً. أمشي على قاع البحر بعشر أرجل ولدي عيون كثيرة. في الربيع أصعد إلى الشاطئ في مجموعات ضخمة لأضع البيض، وتعتمد عليه الطيور المهاجرة.
+losing my nesting beaches|فقدان شواطئ تعشيشي
+I munch algae off coral with my beak-like teeth, and much of the sand on tropical beaches comes from my leftovers.|أقضم الطحالب عن المرجان بأسناني الشبيهة بالمنقار، وكثير من رمل الشواطئ الاستوائية يأتي من فضلاتي.
+At night I wrap myself in a bubble of mucus, thought to hide my scent from predators. I scrape algae off coral with my beak and grind it up, then I make sand. When a school of us grazes, coral gets room to grow. Many of us change color and even sex as we grow.|في الليل ألفّ نفسي بفقاعة من المخاط، يُعتقد أنها تخفي رائحتي عن المفترسات. أكشط الطحالب عن المرجان بمنقاري وأطحنها ثم أصنع الرمل. حين يرعى سربنا يحصل المرجان على مساحة لينمو. يغيّر كثير منا لونه وحتى جنسه مع نموه.
+overfishing and dying reefs|الصيد الجائر والشعاب المحتضرة
+My glowing lure helps me attract food in total darkness. I'm just a hungry fish in a dark world.|طُعمي المتوهج يساعدني على جذب الطعام في الظلام التام. أنا مجرد سمكة جائعة في عالم مظلم.
+I live in the deep, where it's dark and food is scarce. The glowing lure on my head is lit by bacteria. In some species, the males are tiny and fuse to the female permanently. I can swallow prey as big as myself thanks to my stretchy stomach. I'm hungry, not hateful.|أعيش في الأعماق حيث الظلام والطعام شحيح. الطُعم المتوهج على رأسي تضيئه البكتيريا. في بعض الأنواع تكون الذكور صغيرة جداً وتلتحم بالأنثى إلى الأبد. أستطيع ابتلاع فريسة بحجمي بفضل معدتي المطاطية. أنا جائعة، لا حاقدة.
+trash and noise sinking into the deep|القمامة والضوضاء الغارقة في الأعماق
+I leap and glide on my wing-like fins to escape predators, but I don't flap like a bird.|أقفز وأنزلق على زعانفي الشبيهة بالأجنحة لأهرب من المفترسات، لكنني لا أرفرف كالطائر.
+I race along the surface and launch, spreading my big fins to glide. Some of my flights last for hundreds of meters, a few meters above the water. I do this to escape tuna, dolphins and swordfish. I'm not a bird, I'm a fish that found a way to leave the sea for a moment.|أتسابق على السطح ثم أنطلق، فأفرد زعانفي الكبيرة لأنزلق. تدوم بعض رحلاتي مئات الأمتار على ارتفاع بضعة أمتار فوق الماء. أفعل ذلك لأهرب من التونة والدلافين وسمك أبو سيف. أنا لست طائراً، أنا سمكة وجدت طريقة لمغادرة البحر للحظة.
+plastic floating on the surface where I glide|البلاستيك الطافي على السطح حيث أنزلق
+My bill is used to slash at fish and stun them, not to spear them.|أستخدم منقاري لأشقّ به الأسماك وأشلّها، لا لأطعنها.
+I'm fast, with a smooth, torpedo-shaped body, and as an adult I have no scales or teeth. I warm my eyes and brain so I can hunt in cold, deep water. I dive deep by day and rise toward the surface at night. My long bill slices through schools of fish like a blade. I'm not a pirate.|أنا سريع، بجسم أملس كالطوربيد، وليس لدي حراشف ولا أسنان وأنا بالغ. أُدفّئ عينيّ ودماغي لأصطاد في الماء البارد العميق. أغوص عميقاً نهاراً وأصعد قرب السطح ليلاً. يشقّ منقاري الطويل أسراب السمك كالشفرة. أنا لست قرصاناً.
+fishing lines and overfishing|خيوط الصيد والصيد الجائر
+I'm a fast, powerful swimmer that crosses entire oceans.|أنا سباح سريع وقوي أعبر محيطات كاملة.
+I'm built for speed and distance. I never stop swimming, and I keep my body warmer than the water around me, which powers my muscles. Some of us cross entire oceans each year and live for decades. I'm one of the ocean's great travelers, but I'm often seen only as food.|صُمّمت للسرعة والمسافات الطويلة. لا أتوقف عن السباحة أبداً، وأُبقي جسمي أدفأ من الماء حولي، وهذا يمدّ عضلاتي بالقوة. يعبر بعضنا محيطات كاملة كل عام ويعيش عقوداً. أنا من أعظم مسافري المحيط، لكن الناس كثيراً ما يرونني طعاماً فقط.
+overfishing|الصيد الجائر
+I'm the heaviest bony fish. I look odd, but I'm a fine swimmer that loves jellyfish.|أنا أثقل سمكة عظمية. مظهري غريب، لكنني سباح جيد أحب قناديل البحر.
+I'm the heaviest bony fish in the sea, and I have a rudder instead of a tail. I bask on my side at the surface to warm up after cold dives, and seabirds sometimes pick parasites off my skin. I start as a tiny larva and grow enormously. I'm an oddball, but I'm well built.|أنا أثقل سمكة عظمية في البحر، ولدي دفة بدل الذيل. أتشمّس على جانبي عند السطح لأتدفأ بعد الغوص في البرد، وتنتقي الطيور البحرية أحياناً الطفيليات من جلدي. أبدأ يرقة صغيرة وأنمو نمواً هائلاً. أنا غريب الأطوار، لكنني مبني جيداً.
+My wings are flippers! I can't fly, but I'm a fast swimmer.|أجنحتي زعانف! لا أستطيع الطيران، لكنني سباح سريع.
+I'm a bird who traded flying for swimming, and my wings are strong flippers. In some of my family, we huddle in thousands to keep warm and take turns standing in the middle. Dads keep eggs warm on their feet for weeks. I waddle on land, but underwater I fly. Fish and krill are my food.|أنا طائر استبدل الطيران بالسباحة، وأجنحتي زعانف قوية. في بعض عائلتي نتجمع بالآلاف لنبقى دافئين ونتناوب الوقوف في الوسط. يُدفّئ الآباء البيض على أقدامهم أسابيع. أتمايل على اليابسة، لكنني تحت الماء أطير. السمك والكريل طعامي.
+melting ice and empty seas|ذوبان الجليد والبحار الفارغة
+I'm venomous, yet I'm usually calm and rarely bite people.|أنا سام، لكنني هادئ عادة ونادراً ما أعضّ الناس.
+I'm a reptile that breathes air, but I can stay under for a long time, and I even absorb some oxygen through my skin. My paddle tail helps me swim, and a gland gets rid of extra salt. I'm curious and may come close to divers, but I'm rarely aggressive. Please give me space.|أنا زاحف يتنفس الهواء، لكنني أستطيع البقاء تحت الماء وقتاً طويلاً، وأمتصّ حتى بعض الأكسجين عبر جلدي. يساعدني ذيلي المجدافي على السباحة، وتتخلص غدة مني من الملح الزائد. أنا فضولي وقد أقترب من الغواصين، لكنني نادراً ما أكون عدوانياً. من فضلك امنحني مساحة.
+trawl nets and polluted coasts|شباك الجرف والسواحل الملوثة
+I'm the only lizard that feeds in the sea. I dive to graze on algae.|أنا السحلية الوحيدة التي تتغذى في البحر. أغوص لأرعى الطحالب.
+I'm the only lizard that feeds in the sea. I dive to graze on algae, then rest on warm black rocks to heat up. I sneeze out extra salt through special glands near my nose. In hard years, I can shrink my body to survive the lack of food. I live only in the Galapagos Islands.|أنا السحلية الوحيدة التي تتغذى في البحر. أغوص لأرعى الطحالب ثم أستريح على صخور سوداء دافئة لأسخن. أعطس الملح الزائد عبر غدد خاصة قرب أنفي. في السنوات الصعبة أستطيع تقليص حجم جسمي لأنجو من قلة الطعام. أعيش فقط في جزر غالاباغوس.
+oil spills and plastic washing up on my rocks|التسربات النفطية والبلاستيك الذي يجرفه الموج إلى صخوري
+I'm a heavyweight who dives deep for long stretches. Males like me can weigh over a tonne.|أنا من الوزن الثقيل، أغوص عميقاً لفترات طويلة. الذكور مثلي قد يزيد وزنها على طن.
+I can dive for more than an hour and go very deep. On land, males battle for the beach, but I spend most of my life at sea. I fast for weeks during breeding and molting season. I'm enormous, with the big nose that gave me my name, but I'm usually peaceful when left alone.|أستطيع الغوص أكثر من ساعة والنزول عميقاً جداً. على اليابسة تتقاتل الذكور على الشاطئ، لكنني أقضي معظم حياتي في البحر. أصوم أسابيع في موسم التكاثر والانسلاخ. أنا ضخم، بالأنف الكبير الذي أعطاني اسمي، لكنني مسالم عادة إذا تُركت وشأني.
+fishing nets and plastic|شباك الصيد والبلاستيك
+I'm a cousin of seals. I have visible ear flaps, and I can walk on my big front flippers.|أنا ابن عم الفقمات. لدي صيوان أذن ظاهر، وأستطيع المشي على زعانفي الأمامية الكبيرة.
+I can walk on all four flippers, and I'm louder than my seal cousins with a barking voice. I live in noisy colonies and I'm playful and curious. My ear flaps show that I'm a sea lion. I'm fast and agile in the water, and I slip past divers like a torpedo.|أستطيع المشي على زعانفي الأربع، وصوتي أعلى من صوت أبناء عمومتي الفقمات، فهو نباح. أعيش في مستعمرات صاخبة وأنا مرح وفضولي. صيوانا أذنيّ يدلان على أنني أسد بحر. أنا سريع ورشيق في الماء، وأنساب بين الغواصين كالطوربيد.
+I'm in a different family, with a blunt snout and a smaller body.|أنا من عائلة مختلفة، بخطم عريض وجسم أصغر.
+I'm smaller than a dolphin, and my teeth are flat, not cone-shaped. I'm shy and avoid boats. I'm a quiet swimmer, and many of us live in cold coastal waters. I'm not the Flipper type. People often confuse me with my cousin, but I'm happy being a little less famous.|أنا أصغر من الدلفين، وأسناني مسطحة لا مخروطية. أنا خجول وأتجنب القوارب. أسبح بهدوء، ويعيش كثير منا في المياه الساحلية الباردة. لست من نوع فليبر. يخلط الناس بيني وبين ابن عمي، لكنني سعيد بأن أكون أقل شهرة قليلاً.
+gillnets and noisy ships|الشباك الخيشومية والسفن الصاخبة
+I run a cleaning station on the reef, and big fish line up to have their parasites removed by me.|أدير محطة تنظيف في الشعاب، وتصطف الأسماك الكبيرة لأزيل عنها طفيلياتها.
+I run a tiny cleaning station on the reef. Big fish, even sharks and eels, come to me to have parasites removed. I dance to advertise my service. I'm one of the few fish said to pass a mirror test. I'm small, I'm smart, and the reef is healthier because of me.|أدير محطة تنظيف صغيرة في الشعاب. تأتي إليّ أسماك كبيرة، حتى القروش والثعابين البحرية، لأزيل طفيلياتها. أرقص للإعلان عن خدمتي. أنا من الأسماك القليلة التي يقال إنها تجتاز اختبار المرآة. أنا صغير وذكي، والشعاب أكثر صحة بفضلي.
+dirty, dying reefs|الشعاب المتسخة المحتضرة
+I hitch rides on sharks with my suction disc, and I eat the scraps and parasites. Everyone gets a meal.|أتنقل على ظهور القروش بقرص الشفط الخاص بي، وآكل البقايا والطفيليات. الجميع يحصل على وجبة.
+I carry a sucker on my head, which is actually a modified fin, to hitch a ride on sharks, rays, whales and turtles. I get free travel, safety and leftovers. I sometimes clean my host's skin. I'm not harmful to my host. I'm a hitchhiker who gives back.|أحمل ممصّاً على رأسي، وهو في الحقيقة زعنفة متحوّرة، لأستقل القروش وأسماك الراي والحيتان والسلاحف. أحصل على سفر مجاني وأمان وبقايا طعام. وأنظّف جلد مضيفي أحياناً. لا أؤذي مضيفي. أنا راكب يرد الجميل.
+plastic and the loss of my hosts|البلاستيك وفقدان مضيفيّ
+I'm actually a colony of tiny animals working together as one, and my tentacles can sting painfully.|أنا في الحقيقة مستعمرة من حيوانات صغيرة تعمل معاً ككائن واحد، ويمكن لمجساتي أن تلسع بشدة.
+I'm not one animal, I'm a colony of different kinds of tiny animals working together. My gas-filled float sails me across the ocean on the wind. My tentacles can reach many meters long and sting painfully. I drift in groups called fleets. Even washed up on a beach I can still sting, so please keep your distance.|أنا لست حيواناً واحداً، بل مستعمرة من أنواع مختلفة من الحيوانات الصغيرة تعمل معاً. يبحر بي عوّامي المملوء بالغاز عبر المحيط مع الريح. يمكن أن يصل طول مجساتي إلى عدة أمتار وتلسع بألم. أنساب في مجموعات تسمى أساطيل. حتى وأنا جانح على الشاطئ أستطيع اللسع، فابتعد من فضلك.
+plastic and polluted shores|البلاستيك والشواطئ الملوثة
+I'm a colorful sea slug, and some of us even recycle stinging cells from the animals we eat.|أنا حلزون بحر ملوّن، وبعضنا يعيد تدوير الخلايا اللاسعة من الحيوانات التي يأكلها.
+I'm a sea slug with no shell, and I wear my gills outside like flowers. My bright colors are a warning, because some of us store stinging cells taken from our prey. I find food with my smell sensors, called rhinophores. I'm tiny, but I might be the most colorful animal in the sea.|أنا حلزون بحر بلا صدفة، وأرتدي خياشيمي في الخارج كالأزهار. ألواني الزاهية تحذير، لأن بعضنا يخزّن خلايا لاسعة أخذها من فريسته. أجد الطعام بمستشعرات الشم عندي، وتسمى رينوفورات. أنا صغير، لكنني قد أكون أكثر حيوان ملوّن في البحر.
+pollution and warming seas|التلوث وارتفاع حرارة البحار
+I'm a cousin of manatees, but my tail has two lobes like a whale's, and I graze on seagrass.|أنا ابن عم خراف البحر، لكن لذيلي فصّين كذيل الحوت، وأرعى أعشاب البحر.
+I graze on the seabed, and I leave long trails in the seagrass as I feed. I can live for decades but have very few babies, so we recover slowly. I'm a close relative of the manatee, and sailors may have told mermaid tales about me. I'm gentle, shy and slow.|أرعى على قاع البحر وأترك مسارات طويلة في أعشاب البحر وأنا أتغذى. أستطيع العيش عقوداً لكن صغاري قليلون جداً، فنتعافى ببطء. أنا قريب من خروف البحر، وربما رُويت حكايات حوريات البحر عني. أنا وديع وخجول وبطيء.
+fishing nets and lost seagrass meadows|شباك الصيد وفقدان مروج أعشاب البحر`));
+Object.assign(XX,mk(`Apology|اعتذار
+A letter to the ocean|رسالة إلى المحيط
+Write your apology. When you are ready, send it to the ocean.|اكتب اعتذارك. وعندما تكون مستعداً، أرسله إلى المحيط.
+Dear Ocean,|عزيزي المحيط،
+Tell the ocean what you are sorry for and what you promise to do.|أخبر المحيط بما تأسف عليه وما تعد بفعله.
+Your name (optional)|اسمك (اختياري)
+Send to the ocean|أرسل إلى المحيط
+Please write something before you send.|من فضلك اكتب شيئاً قبل الإرسال.
+To: The Ocean|إلى: المحيط
+Your letter is on its way…|رسالتك في طريقها…
+The ocean has your letter. Thank you for caring.|المحيط استلم رسالتك. شكراً لأنك تهتم.
+Write another letter|اكتب رسالة أخرى
+Rows of sharp teeth that are replaced all life long|صفوف من الأسنان الحادة تتجدد طوال الحياة
+Long grooves under the throat that stretch wide when feeding|أخاديد طويلة تحت الحلق تتمدد عند التغذية
+Long, frilly tentacles trailing in the water|مجسات طويلة مزخرفة تنساب في الماء
+A curved fin on its back|زعنفة منحنية على الظهر
+A huge open mouth with two curled fins beside it|فم ضخم مفتوح تحيط به زعنفتان ملتفتان
+Dozens of thin tentacles reaching out|عشرات المجسات الرفيعة الممتدة`));
+const nmx=s=>XX[s]||s,sw=(c,r)=>c=="Correct!"?"إجابة صحيحة!":"إجابة خاطئة!";
+const RX=[[/^Question (\d+)\/(\d+)$/,(m,a,b)=>`السؤال ${a}/${b}`],[/^Round (\d+)\/(\d+)$/,(m,a,b)=>`الجولة ${a}/${b}`],[/^Clue: (.+)$/,(m,a)=>"تلميح: "+nmx(a)],
+[/^(Correct!|Wrong!) It's (true|false)\.$/,(m,c,v)=>sw(c)+" هي "+(v=="true"?"صحيحة":"خاطئة")+"."],[/^(Correct!|Wrong!) It's the (.+)\.$/,(m,c,n)=>sw(c)+" إنه "+nmx(n)+"."],
+[/^Level (\d+) complete! \+(\d+) coins$/,(m,a,b)=>`اكتمل المستوى ${a}! +${b} عملة`],[/^(Start|Retry) level (\d+)$/,(m,a,b)=>(a=="Start"?"ابدأ المستوى ":"أعد المستوى ")+b],
+[/^The (.+) didn't make it$/,(m,a)=>"لم ينجُ الحيوان: "+nmx(a)],[/^Level (\d+)\s*\|\s*Time left (\d+)s\s*\|\s*Monsters (\d+)\s*\|\s*Coins (\d+)$/,(m,a,b,c,d)=>`المستوى ${a} | الوقت ${b}ث | الوحوش ${c} | العملات ${d}`],
+[/^Skins \(coins: (\d+)\)$/,(m,a)=>`الأشكال (العملات: ${a})`],[/^(\d+) coins$/,(m,a)=>a+" عملة"],[/^(\d) to (\d) \((less scared|more cautious|same)\)$/,(m,a,b,c)=>`${a} إلى ${b} (${{"less scared":"أقل خوفاً","more cautious":"أكثر حذراً",same:"كما هو"}[c]})`]];
+function tx(s){const t=s.trim();if(!t||AR.test(t))return null;const L=s.slice(0,s.indexOf(t)),R=s.slice(s.indexOf(t)+t.length);
+if(XX[t])return L+XX[t]+R;for(const[k,v]of PP)if(t.startsWith(k))return L+v+R;for(const[k,v]of QQ)if(t.startsWith(k))return L+v+" \u2066"+t.slice(k.length).trim()+"\u2069"+R;
+for(const[re,f]of RX){const m=t.match(re);if(m)return L+f(...m)+R}
+const a=t.match(/^(← )?(.+?)( →)?$/);if(a&&(a[1]||a[3])&&XX[a[2]])return L+(a[1]?"→ ":"")+XX[a[2]]+(a[3]?" ←":"")+R;return null}
+function walk(n){if(n.nodeType==3){const r=tx(n.nodeValue);if(r!=null&&r!==n.nodeValue)n.nodeValue=r}else if(n.nodeType==1&&!/^(SCRIPT|STYLE)$/.test(n.tagName)){n.childNodes.forEach(walk);if(n.tagName=="P"&&!AR.test(n.textContent)&&n.textContent.length>40){n.dir="ltr";n.style.textAlign="left"}}}
+const mo=new MutationObserver(ms=>{if(LANG!="ar")return;mo.disconnect();ms.forEach(m=>{if(m.type=="characterData")walk(m.target);else m.addedNodes.forEach(walk)});mo.observe(document.body,{childList:true,characterData:true,subtree:true})});
+mo.observe(document.body,{childList:true,characterData:true,subtree:true});
+const IC={mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',tel:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>',ig:'<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8"/>',fb:'<path d="M14 8h3V4h-3a4 4 0 0 0-4 4v2H7v4h3v7h4v-7h3l1-4h-4V8z"/>',tt:'<path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 3a5 5 0 0 0 5 5"/>'};
+const svg=k=>`<svg viewBox="0 0 24 24" aria-hidden="true">${IC[k]}</svg>`;
+const NAVHEAD=`<a class="lg" href="#home" aria-label="Dear Ocean"><img src="${LOGO}" alt="Dear Ocean"></a>`;
+const NAVTAIL=`<button id="bg" onclick="menu()" aria-label="Menu"><svg viewBox="0 0 24 24" width="26" height="26" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>`;
+function foot(){$("#ft").innerHTML=`<img class="lgf" src="${LOGO}" alt="Dear Ocean"><div class="row"><a href="mailto:dearocean888@gmail.com">${svg("mail")}dearocean888@gmail.com</a></div><div class="row"><a class="soc" aria-label="Instagram">${svg("ig")}</a><a class="soc" aria-label="Facebook">${svg("fb")}</a></div><div class="row"><button class="lk" onclick="doc('cookies')">Cookies</button><button class="lk" onclick="doc('privacy')">Privacy Policy</button></div><div>© 2026 Dear Ocean</div><div style="opacity:.55;font-size:.75rem;margin-top:.3rem">Version 26</div>`}
+function menu(){const e=$("#mn");if(e){e.remove();return}document.body.insertAdjacentHTML("beforeend",`<div class="menu" id="mn"><h4>Language</h4><button class="${LANG=="en"?"on":""}" onclick="setLang('en')">English</button><button class="${LANG=="ar"?"on":""}" onclick="setLang('ar')">العربية</button><h4 style="margin-top:.9rem">Menu</h4>${N.map(n=>`<a href="#${n[0]}" onclick="menu()">${n[1]}</a>`).join("")}</div>`)}
+function applyLang(){document.documentElement.lang=LANG;document.documentElement.dir=LANG=="ar"?"rtl":"ltr"}
+function setLang(l){LANG=l;try{localStorage.setItem("lang",l)}catch(e){}applyLang();const m=$("#mn");if(m)m.remove();const c=$("#ck");if(c)c.remove();foot();ckInit();route()}
+const DOCS={privacy:{en:["Privacy Policy",["Dear Ocean is an educational website. You don't need an account, and we don't ask for your name, email or any personal details to use it.","To work properly, the site saves a few things only in your own browser, on your own device: your answers on the Risk Assessment Scale, your game progress (level, coins and chosen skin), your language, and whether you accepted the cookie notice. We can't see this information, and we don't sell it or share it.","If you contact us by email, we use your message only to reply to you.","You can delete everything the site has saved by clearing this site's data in your browser settings."]],ar:["سياسة الخصوصية",["«عزيزي المحيط» موقع تعليمي. لا تحتاج إلى حساب، ولا نطلب اسمك أو بريدك الإلكتروني أو أي بيانات شخصية لاستخدامه.","لكي يعمل الموقع جيداً، يحفظ بعض الأشياء في متصفحك أنت وعلى جهازك أنت فقط: إجاباتك في مقياس تقييم الخطر، وتقدّمك في الألعاب (المستوى والعملات والشكل المختار)، ولغتك، وموافقتك على إشعار ملفات تعريف الارتباط. لا نستطيع رؤية هذه المعلومات، ولا نبيعها ولا نشاركها.","إذا تواصلت معنا عبر البريد الإلكتروني فسنستخدم رسالتك للرد عليك فقط.","يمكنك حذف كل ما حفظه الموقع بمسح بيانات الموقع من إعدادات متصفحك."]]},
+cookies:{en:["Cookies",["This site doesn't use advertising or tracking cookies.","It uses your browser's local storage, which works like a small cookie, only to remember your language, your scale answers, your game progress and your choice on this notice.","You can clear or block this storage in your browser settings. The site will still work, but it won't remember your progress."]],ar:["ملفات تعريف الارتباط",["لا يستخدم هذا الموقع ملفات تعريف ارتباط للإعلانات أو للتتبع.","يستخدم التخزين المحلي في متصفحك، وهو يعمل مثل ملف تعريف ارتباط صغير، فقط لتذكّر لغتك وإجاباتك في المقياس وتقدّمك في الألعاب واختيارك في هذا الإشعار.","يمكنك مسح هذا التخزين أو حظره من إعدادات المتصفح. سيبقى الموقع يعمل لكنه لن يتذكر تقدّمك."]]}};
+function doc(k){const d=DOCS[k][LANG];document.body.insertAdjacentHTML("beforeend",`<div class="doc" id="dc" onclick="if(event.target==this)this.remove()"><div><h2>${d[0]}</h2>${d[1].map(p=>`<p>${p}</p>`).join("")}<button class="b" onclick="$('#dc').remove()">Close</button></div></div>`)}
+function ckInit(){let a=null;try{a=localStorage.getItem("ck")}catch(e){}if(a)return;document.body.insertAdjacentHTML("beforeend",`<div class="ck" id="ck"><span>We use your browser's storage to remember your language and game progress.</span><span><button class="b" onclick="ckOk()">Accept</button> <button class="b" style="background:none;border:1px solid #fff6" onclick="doc('cookies')">Learn more</button></span></div>`)}
+function ckOk(){try{localStorage.setItem("ck","1")}catch(e){}const c=$("#ck");if(c)c.remove()}
+applyLang();foot();ckInit();(function(){const l=document.getElementById("ld");if(l)l.remove()})();
+addEventListener("hashchange",route);route();
+</script></body></html>
